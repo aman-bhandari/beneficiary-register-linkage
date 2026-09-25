@@ -1,0 +1,93 @@
+# Scheme rules as published by the Social Welfare Department, Uttarakhand.
+# Every criterion carries the text it comes from. Read from ssp.uk.gov.in on 25 Sep 2026.
+sources:
+  faq:
+    title: "सामाजिक सुरक्षा राज्य पोर्टल — जानने योग्य प्रश्न (FAQ): पेंशन आवेदन की आहर्तायें"
+    url: https://ssp.uk.gov.in/FAQ.aspx
+    read: 2026-09-25
+  amounts:
+    title: "पेंशन राशि — उत्तराखण्ड शासनादेश दिनांक 1 फरवरी 2020 के अनुसार"
+    url: https://ssp.uk.gov.in/Pension_Amount_Details.aspx
+    read: 2026-09-25
+  counts:
+    title: "सभी पेंशन योजना — जिलेवार / क्षेत्रवार / तहसीलवार / ब्लॉकवार / पंचायतवार पेंशनर (वित्तीय वर्ष 2026-27, किस्त 5)"
+    url: https://ssp.uk.gov.in/Dashboard/DB_InstWiseAll.aspx
+    read: 2026-09-25
+
+monthly_amount: 1500          # all three schemes, FAQ and amounts page ("वृद्धावस्था/विधवा/विकलांगता पेंशन : Rs. 1500")
+income_limit_month: 4000      # FAQ; amounts page gives the same as annual family income below Rs 48,000
+
+schemes:
+  old_age:
+    name_hi: वृद्धावस्था पेंशन
+    name_en: Old-age pension
+    criteria:
+      - id: age60
+        test: age >= 60
+        en: Age 60 or above
+        quote: "लाभार्थी की उम्र 60 वर्ष या अधिक होनी चाहिए।"
+        source: faq
+      - id: poor
+        test: bpl or income_month <= 4000
+        en: BPL family, or monthly income up to Rs 4,000
+        quote: "लाभार्थी बी0पी0एल0 परिवार का हो अथवा उसकी मसिक आय रु.4000/- तक हो।"
+        source: faq
+  widow:
+    name_hi: विधवा पेंशन
+    name_en: Widow pension
+    criteria:
+      - id: widow
+        test: widowed
+        en: Widowed
+        quote: "विधवा पेंशन"
+        source: faq
+      - id: age18_60
+        test: 18 <= age < 60
+        en: Age 18 to 60
+        quote: "विधवा महिला की उम्र 18 वर्ष से 60 वर्ष होनी चाहिये।"
+        source: faq
+      - id: poor
+        test: bpl or income_month <= 4000
+        en: BPL family, or monthly income up to Rs 4,000
+        quote: "लाभर्थी बी0 पी0 एल0 श्रेणी का हो अथवा उसकी मासिक आय रू 4000 तक हो।"
+        source: faq
+      - id: no_adult_son
+        test: no son or grandson over 20, unless that son is BPL
+        en: No son or grandson over 20 (unless he is BPL)
+        quote: "अभ्‍यर्थी के कोई पुत्र / पौत्र यदि 20 वर्ष से अधिक आयु का न हो । यदि 20 वर्ष से अधिक आयु का पुत्र /पोत्र हो तो वह गरीबी की रेखा से नीचे जीपन यापन कर रहे हो तो ऐसे अभ्‍यर्थी को पेंशन से वंचित नहीं किया जायेगा।"
+        source: faq
+        checked: advisory      # shown to the officer; household data is too thin to apply it automatically
+  disability:
+    name_hi: दिव्यांग पेंशन
+    name_en: Disability pension
+    criteria:
+      - id: disability40
+        test: certified disability >= 40%
+        en: Certified disability of at least 40%
+        quote: "अभ्‍यर्थी की विकलांगता कम से कम 40 प्रतिशत होने का प्रमाण-पत्र मुख्‍य चिकित्‍सा अधिकारी द्वारा प्रदान किया गया हो ।"
+        source: faq
+      - id: poor
+        test: no income, or bpl, or income_month <= 4000
+        en: No income, BPL family, or monthly income up to Rs 4,000
+        quote: "अभ्यर्थी की आय का कोई साधन न हो अथवा बी०पी०एल० चयनित परिवार से संबंधित हो अथवा मासिक आमदनी रु० 4000/- तक हो ।"
+        source: faq
+
+# What the registers can prove about each criterion, and how strongly.
+evidence:
+  poverty:
+    strong: ration card type AAY or PHH (National Food Security Act priority household)
+    possible: ration card type SFY (State Food Scheme) — income below the NFSA line is likely but must be verified
+    against: Treasury pension of more than Rs 4,000 a month (Finance Department roll)
+    not_visible: defence pensions, private income. Cases carry "income to be verified in the field".
+  age: exact birth date in any register beats a year; two independent registers agreeing beats one; a 1 January
+    date is treated as an estimate.
+  widowhood: the husband's death registration (Civil Registration System) linked to him, or the husband recorded as
+    deceased (मृत) in the Parivar register of the same household.
+  disability: UDID certificate percentage.
+
+policy_notes:
+  - The FAQ gives the widow pension age as 18 to 60, yet the portal pays more widow pensions (2.37 lakh statewide)
+    than there are widows aged 18 to 60, so widows over 60 evidently stay on the widow roll. Over-60 widow pensioners
+    are therefore reported as a policy question for the department, not as cases.
+  - Whether one person may hold two social-security pensions at once is not stated on the portal. Such overlaps are
+    raised as "confirm the rule" cases, not as leakage.

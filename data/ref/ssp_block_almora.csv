@@ -1,0 +1,37 @@
+district,area,tehsil,unit,old_age,widow,disability,total,old_age_lakh,widow_lakh,disability_lakh
+Almora,Rural,Almora,BHAISIACHHANA,2654,823,529,4006,40.425,12.405,7.935
+Almora,Rural,Almora,DHAULADEVI,427,397,55,879,6.405,5.955,0.825
+Almora,Rural,Almora,HAWALBAG,3776,1886,1072,6734,56.655,28.365,16.08
+Almora,Rural,Almora,LAMGARA,1205,978,202,2385,18.075,14.67,3.03
+Almora,Rural,Almora,TAKULA,895,267,99,1261,13.455,4.005,1.485
+Almora,Rural,Bhanoli,DHAULADEVI,6647,1598,974,9219,100.56,24.225,14.61
+Almora,Rural,Bhanoli,LAMGARA,50,5,6,61,0.75,0.075,0.09
+Almora,Rural,Bhikia Sain,BHIKIASAIN,3410,1046,374,4830,51.435,15.69,5.61
+Almora,Rural,Bhikia Sain,DWARAHAT,,,,0,,,
+Almora,Rural,Bhikia Sain,SULT,569,58,35,662,8.715,0.87,0.525
+Almora,Rural,Bhikia Sain,SYALDEY,4407,1311,409,6127,66.375,19.665,6.135
+Almora,Rural,Bhikia Sain,TARIKHET,58,12,6,76,0.87,0.18,0.09
+Almora,Rural,Chaukhutia,CHAUKHUTIA,4016,1477,451,5944,60.42,22.155,6.765
+Almora,Rural,Chaukhutia,DWARAHAT,,,,0,,,
+Almora,Rural,Chaukhutia,TARIKHET,7,7,,14,0.105,0.105,
+Almora,Rural,Dwarahat,BHIKIASAIN,180,28,10,218,2.7,0.42,0.15
+Almora,Rural,Dwarahat,DWARAHAT,4336,1845,600,6781,65.505,27.975,9
+Almora,Rural,Dwarahat,TARIKHET,12,3,,15,0.18,0.045,
+Almora,Rural,Jainti,LAMGARA,3251,531,553,4335,49.11,7.965,8.295
+Almora,Rural,Ranikhet,CHAUKHUTIA,8,2,,10,0.12,0.03,
+Almora,Rural,Ranikhet,DWARAHAT,381,90,43,514,5.895,1.35,0.645
+Almora,Rural,Ranikhet,TARIKHET,5273,1959,696,7928,79.335,29.445,10.44
+Almora,Rural,Salt,BHIKIASAIN,2,,,2,0.03,,
+Almora,Rural,Salt,SULT,5888,2023,519,8430,88.56,30.39,7.785
+Almora,Rural,Salt,SYALDEY,593,84,68,745,9.075,1.26,1.02
+Almora,Rural,Salt,TARIKHET,2,,,2,0.03,,
+Almora,Rural,Someshwar,HAWALBAG,347,38,34,419,5.265,0.57,0.51
+Almora,Rural,Someshwar,TAKULA,2758,1332,543,4633,41.37,19.98,8.325
+Almora,Urban,Almora,ALMORA,590,450,194,1234,906000,675000,291000
+Almora,Urban,Bhikia Sain,Bhikia Sain,30,4,2,36,45000,6000,3000
+Almora,Urban,Chaukhutia,CHAUKHUTIA,41,16,5,62,61500,24000,7500
+Almora,Urban,Dwarahat,ALMORA,,,,0,,,
+Almora,Urban,Dwarahat,DWARAHAT,51,41,8,100,76500,61500,12000
+Almora,Urban,Dwarahat,RANIKHET,,,,0,,,
+Almora,Urban,Ranikhet,CHILIYANAULA,12,2,4,18,18000,3000,6000
+Almora,Urban,Ranikhet,RANIKHET,192,166,45,403,288000,249000,67500
