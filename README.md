@@ -55,7 +55,7 @@ Open the interface and pick a role at the top: District Social Welfare Officer (
 block officer, a state planner, another department, or the auditor. The API takes the same choice as an
 `X-Role` header (`/api/roles` lists them).
 
-Optional: `./run.sh build Almora` builds one district (about 6 minutes). `./run.sh scrape` refreshes the pension
+Optional: `./run.sh build Almora` builds one district (about 3 minutes); one API test then fails on purpose, because it checks that the other district is refused. `./run.sh scrape` refreshes the pension
 counts from ssp.uk.gov.in (Chromium via Playwright, about 40 minutes per district; `npm install && npx playwright install chromium` first).
 `./run.sh ui-check` drives every page for every role at phone and desktop widths and fails on any console error,
 overflow, or a case reachable outside a role's posting; screenshots land in `ui/check/shots/`.
