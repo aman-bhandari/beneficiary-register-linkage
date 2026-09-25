@@ -1,6 +1,6 @@
 # Status: P-003 complete
 
-The definition of done was set in `~/workshop/documents/p003-plan.md` before any code. Against it:
+The definition of done was set in `docs/PLAN.md` before any code. Against it:
 
 | # | Acceptance criterion | State | Evidence |
 |---|---|---|---|
@@ -26,9 +26,9 @@ The definition of done was set in `~/workshop/documents/p003-plan.md` before any
 ## Running it
 
 ```bash
-cd ~/workshop/ukis-p003
+cd ukis-p003
 ./run.sh serve                     # http://127.0.0.1:8003
 ./run.sh build                     # full rebuild from seed, about 16 minutes
 ./run.sh test                      # 23 tests
-~/.claude/browser/run.sh ui/check/ui_check.cjs
+./run.sh ui-check
 ```

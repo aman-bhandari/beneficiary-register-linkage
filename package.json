@@ -1,0 +1,7 @@
+{
+  "name": "ukis-p003-tools",
+  "private": true,
+  "description": "Playwright for the portal scraper (scraper/ssp_counts.js) and the interface check (ui/check/ui_check.cjs). The web UI itself lives in ui/.",
+  "scripts": { "ui-check": "node ui/check/ui_check.cjs", "scrape": "node scraper/ssp_counts.js" },
+  "devDependencies": { "playwright": "^1.62.1" }
+}

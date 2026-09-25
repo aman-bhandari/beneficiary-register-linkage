@@ -1,5 +1,5 @@
 // Interface check: every page for every role at phone and desktop widths.
-//   ~/.claude/browser/run.sh ui/check/ui_check.cjs [base-url]
+//   ./run.sh ui-check [base-url]   (needs: npm install && npx playwright install chromium)
 // Fails on: a console error, a page that does not render its heading, horizontal overflow, a tab shown to a role
 // that cannot use it, or a case reachable by a role outside its posting. Screenshots go to ui/check/shots/.
 const { chromium } = require('playwright')
