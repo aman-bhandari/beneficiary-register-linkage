@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ekatra (UKIS 2026 P-003) — one command per stage. Every stage is deterministic from the seed and safe to re-run.
+# Ekatra — one command per stage. Every stage is deterministic from the seed and safe to re-run.
 #   ./run.sh build [district]     generate -> standardise -> link -> findings -> warehouse (default: both districts, ~16 min)
 #   ./run.sh serve                API + interface on http://127.0.0.1:8003 (needs ui/dist: run ./run.sh ui once)
 #   ./run.sh test                 unit and API tests (API tests need a built warehouse)

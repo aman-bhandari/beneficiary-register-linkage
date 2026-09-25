@@ -108,7 +108,7 @@ export default function App() {
 
       <footer className="max-w-[1240px] mx-auto px-4 sm:px-6 pb-10 text-[14px] text-ink-faint">
         Ekatra raises cases for officer verification. It does not enrol, stop or change any benefit.
-        UKIS 2026, problem P-003. Independent prototype, not a Government of Uttarakhand system.
+        Independent prototype, not a Government of Uttarakhand system.
       </footer>
     </div>
   )

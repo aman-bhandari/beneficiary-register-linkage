@@ -1,6 +1,6 @@
 # Ekatra (एकत्र): integrated beneficiary data governance
 
-UKIS 2026, problem P-003 (Social Welfare Department, Uttarakhand).
+Problem: Uttarakhand's Social Welfare Department pays pensions from its own rolls while ration, health, treasury, panchayat and employment registers sit with other departments, so nobody can see who is eligible but missing, or who is paid wrongly.
 
 Links the beneficiary registers of ten departments for two districts and produces cases for a welfare officer:
 people who meet every published pension criterion and receive none, and payments that look wrong (paid after a
@@ -25,19 +25,19 @@ counts, rules and census shares are real; people and records are synthetic.
 | `scraper/ssp_counts.js` | Pension counts per panchayat from ssp.uk.gov.in |
 | `data/ref/` | Portal counts (read 25 Sep 2026), committed |
 | `tests/` | 23 tests: normalisation, governance, API role matrix |
-| `docs/` | STATUS, PLAN, RESULTS, DATA, PRIVACY, DEMO, REGISTRATION-DRAFT |
+| `docs/` | STATUS, RESULTS, DATA, PRIVACY, DEMO |
 
 ## Status (25 September 2026)
 
 | Item | State |
 |---|---|
-| Acceptance criteria (10, `docs/PLAN.md`) | All met; table in `docs/STATUS.md` |
+| Acceptance criteria (10) | All met; table in `docs/STATUS.md` |
 | Scale | 2 districts, 2.3 million people, 4.7 million records, 10 registers |
 | Findings | 6 integrity types and "left out" cases; scheme overlap matrix; coverage and ₹ leakage by block |
 | Governance | 6 roles; masking with recorded reason; hash-chained log; review queue |
 | Rebuild | From seed in 16 min; reproduces every figure |
 | Tests, page check | 23 pass; page check passes for 6 roles at 2 widths |
-| Demo video, hosted demo, registration | Not done |
+| Demo video, hosted demo | Not done |
 
 ## Results (against the planted truth)
 

@@ -1,5 +1,5 @@
 {
-  "name": "ukis-p003-ui",
+  "name": "beneficiary-register-linkage-ui",
   "private": true,
   "type": "module",
   "scripts": { "dev": "vite", "build": "vite build", "preview": "vite preview" },
