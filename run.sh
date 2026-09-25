@@ -21,13 +21,13 @@ case "${1:-serve}" in
       (cd pipeline && python standardise.py --district "$d")
       (cd pipeline && python link.py --district "$d" 2>&1 | tail -1)
     done
-    [ -f pipeline/findings.py ] && (cd pipeline && python findings.py)
-    [ -f pipeline/warehouse.py ] && (cd pipeline && python warehouse.py)
+    (cd pipeline && python findings.py)
+    python eval/report.py                         # accuracy figures for the Method page (numbers only)
+    (cd pipeline && python warehouse.py)
+    python pipeline/samples.py
     ;;
   eval)
-    for d in "${DISTRICTS[@]}"; do python eval/linkage_eval.py --district "$d" --detail; done
-    [ -f eval/findings_eval.py ] && python eval/findings_eval.py
-    ;;
+    python eval/report.py ;;
   serve)
     exec uvicorn api.main:app --app-dir . --host 127.0.0.1 --port "${PORT:-8003}" ;;
   test)

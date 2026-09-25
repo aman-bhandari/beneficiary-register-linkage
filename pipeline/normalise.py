@@ -17,10 +17,13 @@ from functools import lru_cache
 from indic_transliteration import sanscript
 
 # words that carry no identity: honorifics, "late", and the Devi/Kumari suffix women's names may or may not carry
-STOP = {"devi", "debi", "kumari", "smt", "shri", "sri", "late", "swargiya", "mr", "mrs", "ms", "km", "dr",
-        "sv", "sw", "w/o", "s/o", "d/o"}
+STOP = {"devi", "debi", "kumari", "kaur", "kour", "smt", "shri", "sri", "late", "swargiya", "mr", "mrs", "ms",
+        "km", "dr", "sv", "sw", "w/o", "s/o", "d/o"}
+# name prefixes: Mohd / Md / Mohammad come before the given name and are written or omitted at will
+PREFIX = {"mohd", "md", "mo", "mohammad", "mohammed", "muhammad", "mohamad", "mohmmad", "mohamed"}
 # community middle names: present in one register, absent in the next, so they are compared separately
-MIDDLE = {"singh", "sinh", "chandra", "chandr", "chander", "chand", "datt", "dutt", "dat", "ram", "lal", "prasad", "nath"}
+MIDDLE = {"singh", "sinh", "chandra", "chandr", "chander", "chand", "chandro", "datt", "dutt", "dat", "ram", "lal",
+          "prasad", "nath", "rani", "bala"}
 
 _DEV = re.compile(r"[ऀ-ॿ]")
 
@@ -62,17 +65,30 @@ def skeleton_word(w: str) -> str:
     return w[0] + re.sub(r"[aeiou]", "", w[1:])
 
 
+_STOP_F = {fold_word(x) for x in STOP}
+_PREFIX_F = {fold_word(x) for x in PREFIX}
+_MIDDLE_F = {fold_word(m) for m in MIDDLE}
+
+
 @lru_cache(maxsize=None)
 def split_name(s) -> dict:
-    """-> {'first', 'middle', 'last', 'fold', 'skel_first', 'skel_last'} from any spelling in either script."""
+    """-> {'first', 'middle', 'last', 'fold', 'skel_first', 'skel_last'} from any spelling in either script.
+    The first word is the given name (after any Mohd/Md prefix), even if it is a word that elsewhere serves as a
+    community middle name: 'Ram Singh Rana' is Ram, 'Kishan Ram Arya' is Kishan."""
     words = [fold_word(t) for t in re.split(r"[\s.\-,/]+", to_roman(s)) if t]
-    words = [w for w in words if w and w not in {fold_word(x) for x in STOP}]
-    folded_middle = {fold_word(m) for m in MIDDLE}
-    core = [w for w in words if w not in folded_middle]
-    middle = [w for w in words if w in folded_middle]
-    first = core[0] if core else (middle[0] if middle else "")
-    last = core[-1] if len(core) > 1 else ""
-    return dict(first=first, middle=" ".join(middle), last=last, fold=" ".join(core),
+    words = [w for w in words if w and w not in _STOP_F]
+    prefix = []
+    while len(words) > 1 and words[0] in _PREFIX_F:
+        words.pop(0)
+        prefix = ["md"]                                   # one canonical form for Mohd / Md / मोहम्मद
+    if not words:
+        words, prefix = prefix, []
+    first = words[0] if words else ""
+    rest = words[1:]
+    middle = prefix + [w for w in rest if w in _MIDDLE_F]
+    core = [w for w in rest if w not in _MIDDLE_F]
+    last = core[-1] if core else ""
+    return dict(first=first, middle=" ".join(middle), last=last, fold=" ".join([first] + core).strip(),
                 skel_first=skeleton_word(first), skel_last=skeleton_word(last))
 
 
@@ -94,4 +110,6 @@ def place_key(s) -> str:
     """Panchayat names re-typed by each department fold to one key."""
     if not isinstance(s, str):
         return ""
-    return fold_word(to_roman(s).replace(" ", ""))
+    r = to_roman(s)
+    digits = "".join(re.findall(r"\d+", r))
+    return fold_word(re.sub(r"\bward\b|\d+|\s", "", r)) + (f"w{digits}" if digits else "")

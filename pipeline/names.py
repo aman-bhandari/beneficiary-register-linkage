@@ -191,3 +191,59 @@ DISTRICT_COMMUNITIES = {
 MUSLIM_FEMALE_SECOND = [("खातून", ["Khatoon", "Khatun"]), ("बेगम", ["Begum", "Begam"]), ("परवीन", ["Parveen", "Praveen", "Parvin"]),
                         ("बानो", ["Bano", "Banu"]), ("निशा", ["Nisha"])]
 COMMUNITIES["muslim"]["female_second"] = MUSLIM_FEMALE_SECOND
+
+
+# ------------------------------------------------------------------------------------------ larger name pools
+def compound(prefixes, suffixes):
+    """North Indian given names are often compounds: राम+लाल = Ramlal / Ram Lal. Both spellings occur in records."""
+    out = []
+    for pd_, pr in prefixes:
+        for sd, sr in suffixes:
+            out.append((pd_ + sd, [pr + sr.lower(), f"{pr} {sr}"]))
+    return out
+
+
+THARU_MALE += compound([("राम", "Ram"), ("श्याम", "Shyam"), ("हर", "Har"), ("जय", "Jai"), ("धनी", "Dhani"),
+                        ("गेंदा", "Genda"), ("बुद्धि", "Buddhi"), ("मोहन", "Mohan"), ("सोहन", "Sohan"), ("छोटे", "Chhote"),
+                        ("बाबू", "Babu"), ("मंगल", "Mangal"), ("शिव", "Shiv"), ("भगवान", "Bhagwan")],
+                       [("लाल", "Lal"), ("पाल", "Pal"), ("सिंह", "Singh"), ("प्रसाद", "Prasad"), ("दास", "Das")])
+THARU_FEMALE += compound([("राम", "Ram"), ("फूल", "Phool"), ("लीला", "Leela"), ("चन्द्र", "Chandra"), ("गंगा", "Ganga"),
+                          ("शान्ति", "Shanti"), ("सुख", "Sukh"), ("धन", "Dhan"), ("प्रेम", "Prem"), ("राज", "Raj")],
+                         [("वती", "Wati"), ("कली", "Kali"), ("मती", "Mati"), ("देई", "Dei")])
+PLAINS_MALE += compound([("राम", "Ram"), ("श्याम", "Shyam"), ("हरि", "Hari"), ("शिव", "Shiv"), ("जय", "Jai"),
+                         ("ओम", "Om"), ("राज", "Raj"), ("चन्द्र", "Chandra"), ("सत्य", "Satya"), ("वीर", "Veer")],
+                        [("पाल", "Pal"), ("कुमार", "Kumar"), ("प्रकाश", "Prakash"), ("किशोर", "Kishore"), ("सिंह", "Singh")])
+PLAINS_FEMALE += compound([("राम", "Ram"), ("राज", "Raj"), ("चन्द्र", "Chandra"), ("ओम", "Om"), ("प्रेम", "Prem"),
+                           ("शशि", "Shashi"), ("सुमन", "Suman")], [("वती", "Wati"), ("बाला", "Bala"), ("लता", "Lata")])
+SIKH_MALE += [("जसविन्दर", ["Jaswinder", "Jasvinder"]), ("सुखदेव", ["Sukhdev"]), ("गुरचरन", ["Gurcharan", "Gurcharn"]),
+              ("हरपाल", ["Harpal"]), ("जगजीत", ["Jagjeet", "Jagjit"]), ("राजिन्दर", ["Rajinder", "Rajender"]),
+              ("सरबजीत", ["Sarabjeet", "Sarabjit"]), ("तरसेम", ["Tarsem"]), ("अवतार", ["Avtar", "Autar"]),
+              ("भूपिन्दर", ["Bhupinder", "Bhupender"]), ("चरनजीत", ["Charanjeet", "Charanjit"]), ("दविन्दर", ["Davinder", "Devinder"]),
+              ("गुरनाम", ["Gurnam"]), ("हरदीप", ["Hardeep", "Hardip"]), ("जसबीर", ["Jasbir", "Jasveer"]),
+              ("कुलविन्दर", ["Kulwinder", "Kulvinder"]), ("लखविन्दर", ["Lakhwinder"]), ("मनदीप", ["Mandeep", "Mandip"]),
+              ("नवदीप", ["Navdeep"]), ("रणजीत", ["Ranjeet", "Ranjit"]), ("सुखजिन्दर", ["Sukhjinder"]), ("तेजिन्दर", ["Tejinder"]),
+              ("बलजीत", ["Baljeet", "Baljit"]), ("गुरविन्दर", ["Gurwinder", "Gurvinder"]), ("हरविन्दर", ["Harwinder"])]
+SIKH_FEMALE += [("जसविन्दर", ["Jaswinder"]), ("सुखजीत", ["Sukhjeet", "Sukhjit"]), ("कमलजीत", ["Kamaljeet", "Kamaljit"]),
+                ("रणजीत", ["Ranjeet", "Ranjit"]), ("सिमरन", ["Simran"]), ("नवनीत", ["Navneet", "Navnit"]), ("रूपिन्दर", ["Rupinder"]),
+                ("हरमीत", ["Harmeet", "Harmit"]), ("दलजीत", ["Daljeet", "Daljit"]), ("बलविन्दर", ["Balwinder"]),
+                ("जसलीन", ["Jasleen"]), ("कुलदीप", ["Kuldeep"]), ("मनिन्दर", ["Maninder"]), ("सतविन्दर", ["Satwinder", "Satvinder"]),
+                ("अमनदीप", ["Amandeep"]), ("रविन्दर", ["Ravinder", "Ravindar"])]
+MUSLIM_MALE += [("अब्दुल", ["Abdul"]), ("इस्लाम", ["Islam"]), ("जमील", ["Jamil", "Jameel"]), ("खालिद", ["Khalid"]),
+                ("मुजफ्फर", ["Muzaffar", "Mujaffar"]), ("नदीम", ["Nadeem", "Nadim"]), ("परवेज", ["Parvez", "Pervez"]),
+                ("कासिम", ["Qasim", "Kasim"]), ("रहीस", ["Rahees", "Rais"]), ("साबिर", ["Sabir", "Saabir"]),
+                ("तौफीक", ["Taufiq", "Toufik"]), ("उस्मान", ["Usman", "Osman"]), ("वकील", ["Wakil", "Vakil"]),
+                ("जाकिर", ["Zakir", "Jakir"]), ("अजीज", ["Aziz", "Ajij"]), ("बाबू", ["Babu"]), ("दिलशाद", ["Dilshad"]),
+                ("फईम", ["Faheem", "Fahim"]), ("गुलफाम", ["Gulfam"]), ("हनीफ", ["Hanif", "Haneef"]), ("इलियास", ["Ilyas", "Iliyas"]),
+                ("मेहताब", ["Mehtab"]), ("नौशाद", ["Naushad", "Noushad"]), ("राशिद", ["Rashid"]), ("शमशाद", ["Shamshad"])]
+MUSLIM_FEMALE += [("आयशा", ["Ayesha", "Aisha"]), ("बुशरा", ["Bushra"]), ("फातिमा", ["Fatima", "Fatma"]), ("गुलनाज", ["Gulnaz"]),
+                  ("हुमा", ["Huma"]), ("इशरत", ["Ishrat"]), ("जैनब", ["Zainab", "Jainab"]), ("खुशनुमा", ["Khushnuma"]),
+                  ("मेहरुन", ["Mehrun", "Meharun"]), ("नूरजहाँ", ["Noorjahan", "Nurjahan"]), ("रजिया", ["Razia", "Rajiya"]),
+                  ("सबीना", ["Sabina", "Sabeena"]), ("तबस्सुम", ["Tabassum"]), ("यास्मीन", ["Yasmeen", "Yasmin"]),
+                  ("जुबैदा", ["Zubaida", "Jubaida"]), ("अकीला", ["Akila", "Aqeela"]), ("शहनाज", ["Shahnaz"]), ("मुन्नी", ["Munni"])]
+BENGALI_MALE += [("असीम", ["Asim", "Ashim"]), ("बिप्लब", ["Biplab", "Viplav"]), ("चन्दन", ["Chandan"]), ("देबाशीष", ["Debashish", "Debasis"]),
+                 ("गौतम", ["Gautam", "Goutam"]), ("जयन्त", ["Jayanta", "Jayant"]), ("कृष्णपद", ["Krishnapada"]), ("मनोरंजन", ["Manoranjan"]),
+                 ("नारायण", ["Narayan"]), ("परिमल", ["Parimal"]), ("रतन", ["Ratan"]), ("सुशान्त", ["Sushanta", "Sushant"]),
+                 ("उत्तम", ["Uttam"]), ("अनिमेष", ["Animesh"]), ("हरिदास", ["Haridas"])]
+BENGALI_FEMALE += [("अपर्णा", ["Aparna"]), ("बीथिका", ["Bithika"]), ("दीपाली", ["Dipali", "Deepali"]), ("झरना", ["Jharna"]),
+                   ("काकली", ["Kakali"]), ("मौसमी", ["Mousumi", "Mausami"]), ("नमिता", ["Namita"]), ("प्रतिमा", ["Pratima"]),
+                   ("रीता", ["Rita", "Reeta"]), ("शम्पा", ["Shampa", "Sampa"]), ("तापसी", ["Tapasi"]), ("उषा", ["Usha"])]

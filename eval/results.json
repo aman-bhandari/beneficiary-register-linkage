@@ -1,0 +1,763 @@
+{
+ "generated": "2026-09-25 09:50",
+ "linkage": [
+  {
+   "district": "Almora",
+   "overall": {
+    "records": 1481204,
+    "persons_true": 639549,
+    "persons_found": 660508,
+    "true_pairs": 1259649,
+    "predicted_pairs": 1231369,
+    "correct_pairs": 1213822,
+    "precision": 0.9858,
+    "recall": 0.9636
+   },
+   "pass1": {
+    "records": 1481204,
+    "persons_true": 639549,
+    "persons_found": 717982,
+    "true_pairs": 1259649,
+    "predicted_pairs": 1162791,
+    "correct_pairs": 1146737,
+    "precision": 0.9862,
+    "recall": 0.9104
+   },
+   "groups": [
+    {
+     "group": "everyone",
+     "true_pairs": 1259649,
+     "recall": 0.9636,
+     "predicted_pairs": 1231369,
+     "precision": 0.9858
+    },
+    {
+     "group": "aged 60 and over",
+     "true_pairs": 545395,
+     "recall": 0.954,
+     "predicted_pairs": 526235,
+     "precision": 0.9887
+    },
+    {
+     "group": "married women",
+     "true_pairs": 466810,
+     "recall": 0.9695,
+     "predicted_pairs": 459061,
+     "precision": 0.9859
+    },
+    {
+     "group": "widows",
+     "true_pairs": 141743,
+     "recall": 0.9724,
+     "predicted_pairs": 140227,
+     "precision": 0.9829
+    },
+    {
+     "group": "no Aadhaar",
+     "true_pairs": 32104,
+     "recall": 0.8486,
+     "predicted_pairs": 28513,
+     "precision": 0.9555
+    },
+    {
+     "group": "Scheduled Caste",
+     "true_pairs": 287332,
+     "recall": 0.955,
+     "predicted_pairs": 280184,
+     "precision": 0.9793
+    },
+    {
+     "group": "Hindi-script vs English-script records",
+     "true_pairs": 872765,
+     "recall": 0.964,
+     "predicted_pairs": null,
+     "precision": null
+    }
+   ],
+   "register_pairs": [
+    {
+     "registers": "parivar-ration",
+     "true_pairs": 470987,
+     "recall": 0.9731
+    },
+    {
+     "registers": "mgnrega-parivar",
+     "true_pairs": 155705,
+     "recall": 0.9498
+    },
+    {
+     "registers": "mgnrega-ration",
+     "true_pairs": 145668,
+     "recall": 0.9668
+    },
+    {
+     "registers": "kisan-ration",
+     "true_pairs": 73371,
+     "recall": 0.9655
+    },
+    {
+     "registers": "parivar-pension",
+     "true_pairs": 72866,
+     "recall": 0.964
+    },
+    {
+     "registers": "kisan-parivar",
+     "true_pairs": 70609,
+     "recall": 0.9315
+    },
+    {
+     "registers": "pension-ration",
+     "true_pairs": 69409,
+     "recall": 0.976
+    },
+    {
+     "registers": "mgnrega-pension",
+     "true_pairs": 39437,
+     "recall": 0.9913
+    },
+    {
+     "registers": "kisan-mgnrega",
+     "true_pairs": 36620,
+     "recall": 0.9871
+    },
+    {
+     "registers": "kisan-pension",
+     "true_pairs": 20605,
+     "recall": 0.9861
+    },
+    {
+     "registers": "death-parivar",
+     "true_pairs": 16829,
+     "recall": 0.7941
+    },
+    {
+     "registers": "ration-udid",
+     "true_pairs": 13819,
+     "recall": 0.9664
+    },
+    {
+     "registers": "parivar-udid",
+     "true_pairs": 13349,
+     "recall": 0.9643
+    },
+    {
+     "registers": "pension-udid",
+     "true_pairs": 7752,
+     "recall": 0.9768
+    },
+    {
+     "registers": "death-ration",
+     "true_pairs": 6291,
+     "recall": 0.8509
+    },
+    {
+     "registers": "parivar-pmay",
+     "true_pairs": 5931,
+     "recall": 0.9069
+    },
+    {
+     "registers": "mgnrega-udid",
+     "true_pairs": 5915,
+     "recall": 0.9711
+    },
+    {
+     "registers": "pmay-ration",
+     "true_pairs": 5537,
+     "recall": 0.9471
+    },
+    {
+     "registers": "kisan-udid",
+     "true_pairs": 3330,
+     "recall": 0.973
+    },
+    {
+     "registers": "mgnrega-pmay",
+     "true_pairs": 3109,
+     "recall": 0.9759
+    },
+    {
+     "registers": "pension-pmay",
+     "true_pairs": 3097,
+     "recall": 0.978
+    },
+    {
+     "registers": "kisan-pmay",
+     "true_pairs": 2827,
+     "recall": 0.9777
+    },
+    {
+     "registers": "ration-treasury",
+     "true_pairs": 2798,
+     "recall": 0.9442
+    },
+    {
+     "registers": "parivar-treasury",
+     "true_pairs": 2638,
+     "recall": 0.8946
+    },
+    {
+     "registers": "kisan-treasury",
+     "true_pairs": 1627,
+     "recall": 0.9687
+    },
+    {
+     "registers": "ration-sainik",
+     "true_pairs": 1596,
+     "recall": 0.9818
+    },
+    {
+     "registers": "parivar-sainik",
+     "true_pairs": 1567,
+     "recall": 0.9413
+    },
+    {
+     "registers": "mgnrega-treasury",
+     "true_pairs": 1499,
+     "recall": 0.974
+    },
+    {
+     "registers": "kisan-sainik",
+     "true_pairs": 923,
+     "recall": 0.9902
+    },
+    {
+     "registers": "mgnrega-sainik",
+     "true_pairs": 886,
+     "recall": 0.9887
+    },
+    {
+     "registers": "death-pension",
+     "true_pairs": 863,
+     "recall": 0.8644
+    },
+    {
+     "registers": "pension-treasury",
+     "true_pairs": 694,
+     "recall": 0.9741
+    },
+    {
+     "registers": "pension-pension",
+     "true_pairs": 540,
+     "recall": 0.9148
+    },
+    {
+     "registers": "pmay-udid",
+     "true_pairs": 303,
+     "recall": 0.9439
+    },
+    {
+     "registers": "treasury-udid",
+     "true_pairs": 200,
+     "recall": 0.96
+    },
+    {
+     "registers": "pension-sainik",
+     "true_pairs": 150,
+     "recall": 0.9733
+    },
+    {
+     "registers": "sainik-udid",
+     "true_pairs": 128,
+     "recall": 0.9844
+    },
+    {
+     "registers": "pmay-treasury",
+     "true_pairs": 105,
+     "recall": 0.9238
+    },
+    {
+     "registers": "pmay-sainik",
+     "true_pairs": 69,
+     "recall": 0.9855
+    }
+   ]
+  },
+  {
+   "district": "Udham Singh Nagar",
+   "overall": {
+    "records": 3231909,
+    "persons_true": 1633123,
+    "persons_found": 1759433,
+    "true_pairs": 2288382,
+    "predicted_pairs": 2138737,
+    "correct_pairs": 2053268,
+    "precision": 0.96,
+    "recall": 0.8973
+   },
+   "pass1": {
+    "records": 3231909,
+    "persons_true": 1633123,
+    "persons_found": 1959890,
+    "true_pairs": 2288382,
+    "predicted_pairs": 1892702,
+    "correct_pairs": 1820449,
+    "precision": 0.9618,
+    "recall": 0.7955
+   },
+   "groups": [
+    {
+     "group": "everyone",
+     "true_pairs": 2288382,
+     "recall": 0.8973,
+     "predicted_pairs": 2138737,
+     "precision": 0.96
+    },
+    {
+     "group": "aged 60 and over",
+     "true_pairs": 871229,
+     "recall": 0.8918,
+     "predicted_pairs": 801060,
+     "precision": 0.9699
+    },
+    {
+     "group": "married women",
+     "true_pairs": 780747,
+     "recall": 0.911,
+     "predicted_pairs": 740512,
+     "precision": 0.9605
+    },
+    {
+     "group": "widows",
+     "true_pairs": 213747,
+     "recall": 0.9273,
+     "predicted_pairs": 208294,
+     "precision": 0.9516
+    },
+    {
+     "group": "no Aadhaar",
+     "true_pairs": 52621,
+     "recall": 0.7072,
+     "predicted_pairs": 42807,
+     "precision": 0.8694
+    },
+    {
+     "group": "Scheduled Caste",
+     "true_pairs": 339349,
+     "recall": 0.8727,
+     "predicted_pairs": 302193,
+     "precision": 0.98
+    },
+    {
+     "group": "Scheduled Tribe",
+     "true_pairs": 173915,
+     "recall": 0.8571,
+     "predicted_pairs": 156500,
+     "precision": 0.9525
+    },
+    {
+     "group": "Muslim names",
+     "true_pairs": 506778,
+     "recall": 0.9245,
+     "predicted_pairs": 502467,
+     "precision": 0.9325
+    },
+    {
+     "group": "Sikh names",
+     "true_pairs": 220201,
+     "recall": 0.9038,
+     "predicted_pairs": 206764,
+     "precision": 0.9626
+    },
+    {
+     "group": "Bengali names",
+     "true_pairs": 178094,
+     "recall": 0.9642,
+     "predicted_pairs": 186693,
+     "precision": 0.9198
+    },
+    {
+     "group": "Hindi-script vs English-script records",
+     "true_pairs": 1593940,
+     "recall": 0.8926,
+     "predicted_pairs": null,
+     "precision": null
+    }
+   ],
+   "register_pairs": [
+    {
+     "registers": "parivar-ration",
+     "true_pairs": 888111,
+     "recall": 0.9065
+    },
+    {
+     "registers": "mgnrega-parivar",
+     "true_pairs": 263626,
+     "recall": 0.8523
+    },
+    {
+     "registers": "mgnrega-ration",
+     "true_pairs": 246525,
+     "recall": 0.9105
+    },
+    {
+     "registers": "kisan-ration",
+     "true_pairs": 166594,
+     "recall": 0.892
+    },
+    {
+     "registers": "pension-ration",
+     "true_pairs": 147264,
+     "recall": 0.906
+    },
+    {
+     "registers": "kisan-parivar",
+     "true_pairs": 114571,
+     "recall": 0.84
+    },
+    {
+     "registers": "parivar-pension",
+     "true_pairs": 111468,
+     "recall": 0.9332
+    },
+    {
+     "registers": "mgnrega-pension",
+     "true_pairs": 60086,
+     "recall": 0.9716
+    },
+    {
+     "registers": "kisan-mgnrega",
+     "true_pairs": 58498,
+     "recall": 0.961
+    },
+    {
+     "registers": "kisan-pension",
+     "true_pairs": 39943,
+     "recall": 0.956
+    },
+    {
+     "registers": "ration-udid",
+     "true_pairs": 32679,
+     "recall": 0.9061
+    },
+    {
+     "registers": "death-parivar",
+     "true_pairs": 25078,
+     "recall": 0.6581
+    },
+    {
+     "registers": "parivar-udid",
+     "true_pairs": 22392,
+     "recall": 0.9181
+    },
+    {
+     "registers": "pension-udid",
+     "true_pairs": 15274,
+     "recall": 0.9495
+    },
+    {
+     "registers": "death-ration",
+     "true_pairs": 13171,
+     "recall": 0.6607
+    },
+    {
+     "registers": "parivar-pmay",
+     "true_pairs": 10973,
+     "recall": 0.8239
+    },
+    {
+     "registers": "pmay-ration",
+     "true_pairs": 10281,
+     "recall": 0.8879
+    },
+    {
+     "registers": "mgnrega-udid",
+     "true_pairs": 9260,
+     "recall": 0.9376
+    },
+    {
+     "registers": "kisan-udid",
+     "true_pairs": 6750,
+     "recall": 0.9172
+    },
+    {
+     "registers": "mgnrega-pmay",
+     "true_pairs": 5764,
+     "recall": 0.9457
+    },
+    {
+     "registers": "ration-treasury",
+     "true_pairs": 5628,
+     "recall": 0.823
+    },
+    {
+     "registers": "pension-pmay",
+     "true_pairs": 5418,
+     "recall": 0.9568
+    },
+    {
+     "registers": "kisan-pmay",
+     "true_pairs": 5136,
+     "recall": 0.9443
+    },
+    {
+     "registers": "parivar-treasury",
+     "true_pairs": 3874,
+     "recall": 0.7638
+    },
+    {
+     "registers": "ration-sainik",
+     "true_pairs": 3263,
+     "recall": 0.9185
+    },
+    {
+     "registers": "kisan-treasury",
+     "true_pairs": 3241,
+     "recall": 0.9013
+    },
+    {
+     "registers": "parivar-sainik",
+     "true_pairs": 2283,
+     "recall": 0.8397
+    },
+    {
+     "registers": "mgnrega-treasury",
+     "true_pairs": 2132,
+     "recall": 0.9221
+    },
+    {
+     "registers": "kisan-sainik",
+     "true_pairs": 1880,
+     "recall": 0.9559
+    },
+    {
+     "registers": "death-pension",
+     "true_pairs": 1799,
+     "recall": 0.7499
+    },
+    {
+     "registers": "pension-treasury",
+     "true_pairs": 1398,
+     "recall": 0.9471
+    },
+    {
+     "registers": "mgnrega-sainik",
+     "true_pairs": 1298,
+     "recall": 0.9638
+    },
+    {
+     "registers": "pension-pension",
+     "true_pairs": 1143,
+     "recall": 0.8688
+    },
+    {
+     "registers": "pmay-udid",
+     "true_pairs": 486,
+     "recall": 0.9259
+    },
+    {
+     "registers": "treasury-udid",
+     "true_pairs": 427,
+     "recall": 0.911
+    },
+    {
+     "registers": "sainik-udid",
+     "true_pairs": 257,
+     "recall": 0.9261
+    },
+    {
+     "registers": "pmay-treasury",
+     "true_pairs": 185,
+     "recall": 0.8757
+    },
+    {
+     "registers": "pmay-sainik",
+     "true_pairs": 134,
+     "recall": 0.9403
+    },
+    {
+     "registers": "pension-sainik",
+     "true_pairs": 92,
+     "recall": 0.913
+    }
+   ]
+  }
+ ],
+ "findings": [
+  {
+   "district": "Almora",
+   "integrity": [
+    {
+     "type": "paid_after_death",
+     "planted": 925,
+     "flagged": 788,
+     "found": 727,
+     "recall": 0.7859,
+     "precision": 0.9226
+    },
+    {
+     "type": "duplicate_enrolment",
+     "planted": 308,
+     "flagged": 282,
+     "found": 241,
+     "recall": 0.7825,
+     "precision": 0.8546
+    },
+    {
+     "type": "two_pensions",
+     "planted": 231,
+     "flagged": 286,
+     "found": 230,
+     "recall": 0.9957,
+     "precision": 0.8042
+    },
+    {
+     "type": "income_above_limit",
+     "planted": 616,
+     "flagged": 679,
+     "found": 600,
+     "recall": 0.974,
+     "precision": 0.8837
+    },
+    {
+     "type": "age_disagreement",
+     "planted": 385,
+     "flagged": 182,
+     "found": 182,
+     "recall": 0.4727,
+     "precision": 1.0
+    },
+    {
+     "type": "shared_account",
+     "planted": 72,
+     "flagged": 70,
+     "found": 70,
+     "recall": 0.9722,
+     "precision": 1.0
+    },
+    {
+     "type": "uncorroborated",
+     "planted": 154,
+     "flagged": 274,
+     "found": 84,
+     "recall": 0.5455,
+     "precision": 0.3066
+    }
+   ],
+   "exclusion": [
+    {
+     "scheme": "old_age",
+     "truly_left_out": 14509,
+     "flagged": 6704,
+     "correct": 5490,
+     "precision": 0.8189,
+     "precision_any_scheme": 0.824,
+     "recall": 0.3784,
+     "high_priority_precision": 0.8691
+    },
+    {
+     "scheme": "widow",
+     "truly_left_out": 1462,
+     "flagged": 166,
+     "correct": 160,
+     "precision": 0.9639,
+     "precision_any_scheme": 0.9639,
+     "recall": 0.1094,
+     "high_priority_precision": 0.9639
+    },
+    {
+     "scheme": "disability",
+     "truly_left_out": 3376,
+     "flagged": 804,
+     "correct": 797,
+     "precision": 0.9913,
+     "precision_any_scheme": 0.9913,
+     "recall": 0.2361,
+     "high_priority_precision": 0.9913
+    }
+   ]
+  },
+  {
+   "district": "Udham Singh Nagar",
+   "integrity": [
+    {
+     "type": "paid_after_death",
+     "planted": 1957,
+     "flagged": 1595,
+     "found": 1331,
+     "recall": 0.6801,
+     "precision": 0.8345
+    },
+    {
+     "type": "duplicate_enrolment",
+     "planted": 652,
+     "flagged": 682,
+     "found": 464,
+     "recall": 0.7117,
+     "precision": 0.6804
+    },
+    {
+     "type": "two_pensions",
+     "planted": 490,
+     "flagged": 733,
+     "found": 487,
+     "recall": 0.9939,
+     "precision": 0.6644
+    },
+    {
+     "type": "income_above_limit",
+     "planted": 1305,
+     "flagged": 1358,
+     "found": 1231,
+     "recall": 0.9433,
+     "precision": 0.9065
+    },
+    {
+     "type": "age_disagreement",
+     "planted": 815,
+     "flagged": 205,
+     "found": 205,
+     "recall": 0.2515,
+     "precision": 1.0
+    },
+    {
+     "type": "shared_account",
+     "planted": 96,
+     "flagged": 96,
+     "found": 96,
+     "recall": 1.0,
+     "precision": 1.0
+    },
+    {
+     "type": "uncorroborated",
+     "planted": 326,
+     "flagged": 3324,
+     "found": 170,
+     "recall": 0.5215,
+     "precision": 0.0511
+    }
+   ],
+   "exclusion": [
+    {
+     "scheme": "old_age",
+     "truly_left_out": 24403,
+     "flagged": 16225,
+     "correct": 9347,
+     "precision": 0.5761,
+     "precision_any_scheme": 0.5803,
+     "recall": 0.383,
+     "high_priority_precision": 0.7264
+    },
+    {
+     "scheme": "widow",
+     "truly_left_out": 2485,
+     "flagged": 222,
+     "correct": 196,
+     "precision": 0.8829,
+     "precision_any_scheme": 0.8829,
+     "recall": 0.0789,
+     "high_priority_precision": 0.8829
+    },
+    {
+     "scheme": "disability",
+     "truly_left_out": 10878,
+     "flagged": 2842,
+     "correct": 2778,
+     "precision": 0.9775,
+     "precision_any_scheme": 0.9775,
+     "recall": 0.2554,
+     "high_priority_precision": 0.9775
+    }
+   ]
+  }
+ ]
+}

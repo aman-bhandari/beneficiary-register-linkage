@@ -1,0 +1,288 @@
+{
+  "overall": {
+    "records": 3231909,
+    "persons_true": 1633123,
+    "persons_found": 1886498,
+    "true_pairs": 2288382,
+    "predicted_pairs": 1970819,
+    "correct_pairs": 1807191,
+    "precision": 0.917,
+    "recall": 0.7897
+  },
+  "groups": [
+    {
+      "group": "everyone",
+      "true_pairs": 2288382,
+      "recall": 0.7897,
+      "predicted_pairs": 1970819,
+      "precision": 0.917
+    },
+    {
+      "group": "aged 60 and over",
+      "true_pairs": 871229,
+      "recall": 0.7941,
+      "predicted_pairs": 724045,
+      "precision": 0.9556
+    },
+    {
+      "group": "married women",
+      "true_pairs": 780747,
+      "recall": 0.8837,
+      "predicted_pairs": 743428,
+      "precision": 0.9281
+    },
+    {
+      "group": "widows",
+      "true_pairs": 213747,
+      "recall": 0.8382,
+      "predicted_pairs": 193760,
+      "precision": 0.9246
+    },
+    {
+      "group": "no Aadhaar",
+      "true_pairs": 52621,
+      "recall": 0.6566,
+      "predicted_pairs": 43827,
+      "precision": 0.7883
+    },
+    {
+      "group": "Scheduled Caste",
+      "true_pairs": 339349,
+      "recall": 0.7426,
+      "predicted_pairs": 264619,
+      "precision": 0.9523
+    },
+    {
+      "group": "Scheduled Tribe",
+      "true_pairs": 173915,
+      "recall": 0.693,
+      "predicted_pairs": 134002,
+      "precision": 0.8994
+    },
+    {
+      "group": "Muslim names",
+      "true_pairs": 506778,
+      "recall": 0.8435,
+      "predicted_pairs": 495191,
+      "precision": 0.8633
+    },
+    {
+      "group": "Sikh names",
+      "true_pairs": 220201,
+      "recall": 0.8155,
+      "predicted_pairs": 197060,
+      "precision": 0.9113
+    },
+    {
+      "group": "Bengali names",
+      "true_pairs": 178094,
+      "recall": 0.8721,
+      "predicted_pairs": 176037,
+      "precision": 0.8823
+    },
+    {
+      "group": "Hindi-script vs English-script records",
+      "true_pairs": 1593940,
+      "recall": 0.8128,
+      "predicted_pairs": null,
+      "precision": null
+    }
+  ],
+  "register_pairs": [
+    {
+      "registers": "parivar-ration",
+      "true_pairs": 888111,
+      "recall": 0.8432
+    },
+    {
+      "registers": "mgnrega-parivar",
+      "true_pairs": 263626,
+      "recall": 0.881
+    },
+    {
+      "registers": "mgnrega-ration",
+      "true_pairs": 246525,
+      "recall": 0.922
+    },
+    {
+      "registers": "kisan-ration",
+      "true_pairs": 166594,
+      "recall": 0.4649
+    },
+    {
+      "registers": "pension-ration",
+      "true_pairs": 147264,
+      "recall": 0.901
+    },
+    {
+      "registers": "kisan-parivar",
+      "true_pairs": 114571,
+      "recall": 0.4436
+    },
+    {
+      "registers": "parivar-pension",
+      "true_pairs": 111468,
+      "recall": 0.948
+    },
+    {
+      "registers": "mgnrega-pension",
+      "true_pairs": 60086,
+      "recall": 0.9729
+    },
+    {
+      "registers": "kisan-mgnrega",
+      "true_pairs": 58498,
+      "recall": 0.4877
+    },
+    {
+      "registers": "kisan-pension",
+      "true_pairs": 39943,
+      "recall": 0.4851
+    },
+    {
+      "registers": "ration-udid",
+      "true_pairs": 32679,
+      "recall": 0.907
+    },
+    {
+      "registers": "death-parivar",
+      "true_pairs": 25078,
+      "recall": 0.7026
+    },
+    {
+      "registers": "parivar-udid",
+      "true_pairs": 22392,
+      "recall": 0.9172
+    },
+    {
+      "registers": "pension-udid",
+      "true_pairs": 15274,
+      "recall": 0.9502
+    },
+    {
+      "registers": "death-ration",
+      "true_pairs": 13171,
+      "recall": 0.6799
+    },
+    {
+      "registers": "parivar-pmay",
+      "true_pairs": 10973,
+      "recall": 0.0
+    },
+    {
+      "registers": "pmay-ration",
+      "true_pairs": 10281,
+      "recall": 0.0
+    },
+    {
+      "registers": "mgnrega-udid",
+      "true_pairs": 9260,
+      "recall": 0.9415
+    },
+    {
+      "registers": "kisan-udid",
+      "true_pairs": 6750,
+      "recall": 0.4819
+    },
+    {
+      "registers": "mgnrega-pmay",
+      "true_pairs": 5764,
+      "recall": 0.0
+    },
+    {
+      "registers": "ration-treasury",
+      "true_pairs": 5628,
+      "recall": 0.801
+    },
+    {
+      "registers": "pension-pmay",
+      "true_pairs": 5418,
+      "recall": 0.0
+    },
+    {
+      "registers": "kisan-pmay",
+      "true_pairs": 5136,
+      "recall": 0.0
+    },
+    {
+      "registers": "parivar-treasury",
+      "true_pairs": 3874,
+      "recall": 0.7659
+    },
+    {
+      "registers": "ration-sainik",
+      "true_pairs": 3263,
+      "recall": 0.9222
+    },
+    {
+      "registers": "kisan-treasury",
+      "true_pairs": 3241,
+      "recall": 0.4671
+    },
+    {
+      "registers": "parivar-sainik",
+      "true_pairs": 2283,
+      "recall": 0.8336
+    },
+    {
+      "registers": "mgnrega-treasury",
+      "true_pairs": 2132,
+      "recall": 0.9179
+    },
+    {
+      "registers": "kisan-sainik",
+      "true_pairs": 1880,
+      "recall": 0.5021
+    },
+    {
+      "registers": "death-pension",
+      "true_pairs": 1799,
+      "recall": 0.791
+    },
+    {
+      "registers": "pension-treasury",
+      "true_pairs": 1398,
+      "recall": 0.9428
+    },
+    {
+      "registers": "mgnrega-sainik",
+      "true_pairs": 1298,
+      "recall": 0.9638
+    },
+    {
+      "registers": "pension-pension",
+      "true_pairs": 1143,
+      "recall": 0.8819
+    },
+    {
+      "registers": "pmay-udid",
+      "true_pairs": 486,
+      "recall": 0.0
+    },
+    {
+      "registers": "treasury-udid",
+      "true_pairs": 427,
+      "recall": 0.9133
+    },
+    {
+      "registers": "sainik-udid",
+      "true_pairs": 257,
+      "recall": 0.9416
+    },
+    {
+      "registers": "pmay-treasury",
+      "true_pairs": 185,
+      "recall": 0.0
+    },
+    {
+      "registers": "pmay-sainik",
+      "true_pairs": 134,
+      "recall": 0.0
+    },
+    {
+      "registers": "pension-sainik",
+      "true_pairs": 92,
+      "recall": 0.913
+    }
+  ]
+}

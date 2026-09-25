@@ -95,6 +95,7 @@ class World:
         self.pid0, self.next_hid = pid_start, hid_start
         self.used_aadhaar = used_aadhaar
         self.hh_names: dict = {}
+        self.wards: dict[int, int] = {}          # urban unit -> number of wards (towns are addressed by ward)
 
     def aadhaar(self) -> str:
         while True:
@@ -229,10 +230,12 @@ class World:
                     m["treasury_pension"] = max(9000, int(self.np.normal(21000, 7000)))
                 else:
                     m["defence_pension"] = True
+                m["defence_amount"] = max(12000, int(self.np.normal(26000, 8000)))
                 income += 20000
         land = round(max(0.02, self.np.gamma(1.2, 0.35 if cfg["code"] == "ALM" else 0.9)), 2) if r.random() < 0.6 else 0.0
+        ward = r.randint(1, self.wards.get(unit, 0)) if self.wards.get(unit) else None
         self.households[hid] = dict(hid=hid, unit_id=unit, comm=comm, bpl=bpl, income=income, phone=phone,
-                                    landholding=land, members=[m["pid"] for m in members])
+                                    landholding=land, ward=ward, members=[m["pid"] for m in members])
         if land:
             holders = [m for m in members if m["alive"] and m["rel"] in ("head", "father") and m["sex"] == "M"] or \
                       [m for m in members if m["alive"] and m["rel"] in ("head", "mother")]
@@ -409,6 +412,11 @@ def fmt(d):
     return d.strftime("%d-%m-%Y") if d else None
 
 
+def address(u, hh) -> str:
+    """Rural records name the gram panchayat; urban ones the town and ward."""
+    return f"{u.panchayat} WARD {hh['ward']}" if hh and hh.get("ward") else u.panchayat
+
+
 def build_registers(units: pd.DataFrame, w: World, district: str, code: str, tag: str):
     r, wr = w.r, Writer(w)
     people = w.people
@@ -433,7 +441,7 @@ def build_registers(units: pd.DataFrame, w: World, district: str, code: str, tag
                     applicant_name=name or wr.name(p, "dev", drop_surname=0.04),
                     father_husband_name=wr.relation_name(p, "dev"), gender={"M": "पुरुष", "F": "महिला"}[p["sex"]],
                     dob=fmt(dob or wr.dob(p)), category=CATEGORY_HI[COMMUNITIES[p["comm"]]["category"]],
-                    district=district, block=u.block, gram_panchayat=u.panchayat,
+                    district=district, block=u.block, gram_panchayat=address(u, w.households.get(p["hid"])),
                     bank_account=account or p["account"] or w.account(),
                     aadhaar=wr.aadhaar(p, 0.88) if aadhaar == "auto" else aadhaar,
                     mobile=p["mobile"], sanction_year=yr, status="Active")
@@ -521,7 +529,7 @@ def build_registers(units: pd.DataFrame, w: World, district: str, code: str, tag
                                member_name=wr.name(p, "rom", drop_middle=0.45), member_age=wr.age(p, upd),
                                age_as_on=upd, gender=p["sex"],
                                relation_to_head="SELF" if p is head else REL_EN.get(p["rel"], "OTHER"),
-                               aadhaar=wr.aadhaar(p, 0.93), mobile=hh["phone"], village=wr.place(u.panchayat),
+                               aadhaar=wr.aadhaar(p, 0.93), mobile=hh["phone"], village=wr.place(address(u, hh)),
                                block=u.block, district=district), p["pid"])
 
     # --- MGNREGA job cards, Rural Development. English, age at registration -------------------------------------
@@ -554,7 +562,7 @@ def build_registers(units: pd.DataFrame, w: World, district: str, code: str, tag
                               father_husband_name=wr.relation_name(p, "rom", prefer_father=0.5), gender=p["sex"],
                               dob=fmt(wr.dob(p, heap_old=0.5)) if r.random() < 0.5 else None,
                               aadhaar=wr.aadhaar(p, 0.99), account=p["account"] or w.account(),
-                              land_ha=w.households[p["hid"]]["landholding"], village=wr.place(u.panchayat),
+                              land_ha=w.households[p["hid"]]["landholding"], village=wr.place(address(u, w.households.get(p["hid"]))),
                               block=u.block), p["pid"])
         # --- Death register (Civil Registration System). Hindi or English, age at death, rarely Aadhaar ------
         if not p["alive"] and (TODAY - p["died"]).days <= 6 * 365 and r.random() < 0.92:
@@ -562,7 +570,7 @@ def build_registers(units: pd.DataFrame, w: World, district: str, code: str, tag
             add("death", dict(registration_no=f"D-{p['died'].year}-{r.randint(1, 99999):05d}",
                               deceased_name=wr.name(p, script), gender=p["sex"], age_at_death=wr.age(p, p["died"].year),
                               date_of_death=fmt(p["died"]), father_husband_name=wr.relation_name(p, script),
-                              village=wr.place(u.panchayat), block=u.block, aadhaar=wr.aadhaar(p, 0.35)), p["pid"])
+                              village=wr.place(address(u, w.households.get(p["hid"]))), block=u.block, aadhaar=wr.aadhaar(p, 0.35)), p["pid"])
         # --- UDID disability register. English, birth dates, certified percentage ---------------------------
         if p["alive"] and p["disability"] >= 20 and r.random() < 0.65:
             add("udid", dict(udid_no=f"UK{r.randint(10**15, 10**16 - 1)}", name=wr.name(p, "rom", maiden=r.random() < 0.3),
@@ -571,7 +579,15 @@ def build_registers(units: pd.DataFrame, w: World, district: str, code: str, tag
                              disability_type=r.choice(["Locomotor", "Low Vision", "Blindness", "Hearing Impairment",
                                                        "Intellectual Disability", "Multiple Disabilities"]),
                              percentage=p["disability"], aadhaar=wr.aadhaar(p, 0.85), mobile=p["mobile"],
-                             block=u.block, village=wr.place(u.panchayat)), p["pid"])
+                             block=u.block, village=wr.place(address(u, w.households.get(p["hid"])))), p["pid"])
+        # --- Sainik Kalyan, ex-servicemen register (Zila Sainik Kalyan office). English, service records -----
+        if p["alive"] and p.get("defence_pension") and r.random() < 0.9:
+            add("sainik", dict(service_no=f"{r.choice(['JC', 'No.', ''])}{r.randint(10**6, 10**8)}",
+                               name=wr.name(p, "rom", drop_middle=0.1), rank=r.choice(["Sepoy", "Naik", "Havildar", "Nb Sub", "Sub", "Hony Capt"]),
+                               regiment=r.choice(["Kumaon Regiment", "Garhwal Rifles", "Army Service Corps", "Artillery", "Engineers"]),
+                               dob=fmt(wr.dob(p, heap_old=0.1)), gender=p["sex"], monthly_pension=p.get("defence_amount"),
+                               aadhaar=wr.aadhaar(p, 0.9), account=p["account"] or w.account(), village=wr.place(address(u, w.households.get(p["hid"]))),
+                               block=u.block), p["pid"])
         # --- Treasury pension roll, Finance. Retired state employees; exact birth dates ----------------------
         if p["alive"] and p["treasury_pension"]:
             add("treasury", dict(ppo_no=f"UK/{code}/{r.randint(10**5, 10**6 - 1)}",
@@ -635,6 +651,8 @@ def main():
     fit_all, persons = [], []
     for ti, (tehsil, tu) in enumerate(units.groupby("tehsil", sort=True)):
         w = World(a.seed * 1000 + ti, cfg, pid, hid, used_aadhaar)
+        for u in tu[tu.area == "Urban"].itertuples():
+            w.wards[int(u.unit_id)] = max(4, int(u.target // 4000))
         for u in tu.itertuples():
             n = 0
             while n < u.target:

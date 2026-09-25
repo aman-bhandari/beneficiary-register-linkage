@@ -1,0 +1,9 @@
+{"note": "Seeded runs, 25 Sep 2026. W = minimum match weight for a first-pass join without an agreeing identifier. 'before' = household pass using strong edges only; 'after' = household pass recognising households from any two members matched at p >= 0.5.",
+ "rows": [
+  {"W": 0, "pass": "before", "usn_precision": 0.9363, "usn_recall": 0.8828, "alm_precision": 0.9801, "alm_recall": 0.9716},
+  {"W": 5, "pass": "before", "usn_precision": 0.9715, "usn_recall": 0.8599, "alm_precision": 0.9917, "alm_recall": 0.9496},
+  {"W": 6, "pass": "before", "usn_precision": 0.9817, "usn_recall": 0.8198, "alm_precision": 0.9950, "alm_recall": 0.9252},
+  {"W": 12, "pass": "before", "usn_precision": 0.9941, "usn_recall": 0.7677, "alm_precision": 0.9987, "alm_recall": 0.7888},
+  {"W": 4, "pass": "after", "usn_precision": 0.9600, "usn_recall": 0.8973, "alm_precision": 0.9858, "alm_recall": 0.9636},
+  {"W": 5, "pass": "after", "usn_precision": 0.9718, "usn_recall": 0.8885, "alm_precision": 0.9918, "alm_recall": 0.9506}
+ ]}

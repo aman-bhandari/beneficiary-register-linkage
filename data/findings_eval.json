@@ -1,0 +1,188 @@
+[
+ {
+  "district": "Almora",
+  "integrity": [
+   {
+    "type": "paid_after_death",
+    "planted": 925,
+    "flagged": 838,
+    "found": 762,
+    "recall": 0.8238,
+    "precision": 0.9093
+   },
+   {
+    "type": "duplicate_enrolment",
+    "planted": 308,
+    "flagged": 291,
+    "found": 243,
+    "recall": 0.789,
+    "precision": 0.8351
+   },
+   {
+    "type": "two_pensions",
+    "planted": 231,
+    "flagged": 306,
+    "found": 230,
+    "recall": 0.9957,
+    "precision": 0.7516
+   },
+   {
+    "type": "income_above_limit",
+    "planted": 616,
+    "flagged": 682,
+    "found": 602,
+    "recall": 0.9773,
+    "precision": 0.8827
+   },
+   {
+    "type": "age_disagreement",
+    "planted": 385,
+    "flagged": 185,
+    "found": 185,
+    "recall": 0.4805,
+    "precision": 1.0
+   },
+   {
+    "type": "shared_account",
+    "planted": 72,
+    "flagged": 70,
+    "found": 70,
+    "recall": 0.9722,
+    "precision": 1.0
+   },
+   {
+    "type": "uncorroborated",
+    "planted": 154,
+    "flagged": 272,
+    "found": 84,
+    "recall": 0.5455,
+    "precision": 0.3088
+   }
+  ],
+  "exclusion": [
+   {
+    "scheme": "old_age",
+    "truly_left_out": 14509,
+    "flagged": 6683,
+    "correct": 5482,
+    "precision": 0.8203,
+    "precision_any_scheme": 0.8252,
+    "recall": 0.3778,
+    "high_priority_precision": 0.8788
+   },
+   {
+    "scheme": "widow",
+    "truly_left_out": 1462,
+    "flagged": 177,
+    "correct": 167,
+    "precision": 0.9435,
+    "precision_any_scheme": 0.9435,
+    "recall": 0.1142,
+    "high_priority_precision": 0.9435
+   },
+   {
+    "scheme": "disability",
+    "truly_left_out": 3376,
+    "flagged": 818,
+    "correct": 804,
+    "precision": 0.9829,
+    "precision_any_scheme": 0.9829,
+    "recall": 0.2382,
+    "high_priority_precision": 0.9829
+   }
+  ]
+ },
+ {
+  "district": "Udham Singh Nagar",
+  "integrity": [
+   {
+    "type": "paid_after_death",
+    "planted": 1957,
+    "flagged": 1803,
+    "found": 1405,
+    "recall": 0.7179,
+    "precision": 0.7793
+   },
+   {
+    "type": "duplicate_enrolment",
+    "planted": 652,
+    "flagged": 736,
+    "found": 475,
+    "recall": 0.7285,
+    "precision": 0.6454
+   },
+   {
+    "type": "two_pensions",
+    "planted": 490,
+    "flagged": 843,
+    "found": 487,
+    "recall": 0.9939,
+    "precision": 0.5777
+   },
+   {
+    "type": "income_above_limit",
+    "planted": 1305,
+    "flagged": 1373,
+    "found": 1225,
+    "recall": 0.9387,
+    "precision": 0.8922
+   },
+   {
+    "type": "age_disagreement",
+    "planted": 815,
+    "flagged": 237,
+    "found": 237,
+    "recall": 0.2908,
+    "precision": 1.0
+   },
+   {
+    "type": "shared_account",
+    "planted": 96,
+    "flagged": 96,
+    "found": 96,
+    "recall": 1.0,
+    "precision": 1.0
+   },
+   {
+    "type": "uncorroborated",
+    "planted": 326,
+    "flagged": 3502,
+    "found": 170,
+    "recall": 0.5215,
+    "precision": 0.0485
+   }
+  ],
+  "exclusion": [
+   {
+    "scheme": "old_age",
+    "truly_left_out": 24403,
+    "flagged": 17204,
+    "correct": 9390,
+    "precision": 0.5458,
+    "precision_any_scheme": 0.5498,
+    "recall": 0.3848,
+    "high_priority_precision": 0.7489
+   },
+   {
+    "scheme": "widow",
+    "truly_left_out": 2485,
+    "flagged": 234,
+    "correct": 186,
+    "precision": 0.7949,
+    "precision_any_scheme": 0.7991,
+    "recall": 0.0748,
+    "high_priority_precision": 0.7949
+   },
+   {
+    "scheme": "disability",
+    "truly_left_out": 10878,
+    "flagged": 2903,
+    "correct": 2784,
+    "precision": 0.959,
+    "precision_any_scheme": 0.959,
+    "recall": 0.2559,
+    "high_priority_precision": 0.959
+   }
+  ]
+ }
+]

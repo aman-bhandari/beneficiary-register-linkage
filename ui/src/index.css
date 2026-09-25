@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { background: theme(colors.sheet); color: theme(colors.ink.DEFAULT); }
+  body { @apply font-sans antialiased; font-size: 16px; line-height: 1.5; }
+  :focus-visible { outline: 2px solid theme(colors.stamp.DEFAULT); outline-offset: 2px; border-radius: 3px; }
+  table { font-variant-numeric: tabular-nums; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+}
+
+@layer components {
+  /* a register: ruled like a ledger, not boxed into cards */
+  .ledger { @apply w-full text-left border-collapse; }
+  .ledger th { @apply font-medium text-ink-soft text-sm py-2 px-3 border-b-2 border-ink/70 align-bottom; }
+  .ledger td { @apply py-2.5 px-3 border-b border-rule align-top; }
+  .ledger tbody tr:hover td { background: rgba(78, 58, 142, 0.045); }
+  .num { @apply text-right tabular-nums; }
+  .panel { @apply bg-paper border border-rule rounded-file; }
+  .btn { @apply inline-flex items-center gap-2 rounded-file px-3.5 py-2 text-[15px] font-medium border transition-colors disabled:opacity-50; }
+  .btn-stamp { @apply btn bg-stamp text-white border-stamp hover:bg-stamp-deep; }
+  .btn-quiet { @apply btn bg-paper text-ink border-rule hover:border-ink-soft; }
+  .field { @apply rounded-file border border-rule bg-paper px-3 py-2 text-[15px] w-full; }
+  .tag { @apply inline-block rounded px-1.5 py-px text-[13px] leading-5 font-medium; }
+  .hi { font-family: 'Tiro Devanagari Hindi', Georgia, serif; }
+}
+
+/* the decision stamp: the one bold mark in the interface, and the only animation */
+.stamp-mark {
+  display: inline-grid; place-items: center; text-align: center;
+  border: 3px double currentColor; border-radius: 8px; padding: 6px 14px;
+  color: theme(colors.stamp.DEFAULT); transform: rotate(-4deg);
+  font-family: 'Tiro Devanagari Hindi', Georgia, serif; line-height: 1.15;
+  background: rgba(78, 58, 142, 0.04); mix-blend-mode: multiply;
+}
+.stamp-mark.fresh { animation: stamp-in 380ms cubic-bezier(.2, .9, .3, 1.3); }
+@keyframes stamp-in { from { transform: rotate(-9deg) scale(1.6); opacity: 0; } to { transform: rotate(-4deg) scale(1); opacity: 1; } }
+
+/* the posting seal in the header */
+.seal { border: 2px solid currentColor; border-radius: 999px; box-shadow: inset 0 0 0 3px theme(colors.paper), inset 0 0 0 4px currentColor; }

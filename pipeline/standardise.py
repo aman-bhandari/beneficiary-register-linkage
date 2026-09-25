@@ -50,6 +50,8 @@ REGISTERS = {
                                            aadhaar="aadhaar", mobile="mobile", panchayat="village", block="block")),
     "treasury": ("Finance (Treasury)", dict(name="pensioner_name", sex="gender", dob="dob", aadhaar="aadhaar",
                                             account="account")),
+    "sainik": ("Sainik Kalyan", dict(name="name", sex="gender", dob="dob", aadhaar="aadhaar", account="account",
+                                     panchayat="village", block="block")),
     "pmay": ("Rural Development (Housing)", dict(name="beneficiary_name", rel_name="father_husband_name",
                                                  sex="gender", aadhaar="aadhaar", account="account",
                                                  panchayat="village", block="block")),
@@ -63,45 +65,55 @@ def token(v) -> str | None:
     return hmac.new(KEY, str(v).encode(), hashlib.sha256).hexdigest()[:20]
 
 
-def birth_fields(row, cmap):
-    """-> (birth_date, birth_year, birth_exact, age_only). A 1 January birth date is treated as an estimate."""
+def birth_columns(df: pd.DataFrame, cmap: dict) -> pd.DataFrame:
+    """birth_date (exact only), birth_year, birth_exact, age_only. A 1 January birth date is an estimate."""
+    n = len(df)
+    out = pd.DataFrame({"birth_date": [None] * n, "birth_year": [None] * n, "birth_exact": [False] * n,
+                        "age_only": [False] * n}, index=df.index)
     if "dob" in cmap:
-        d = parse_date(row.get(cmap["dob"]))
-        if d:
-            exact = not (d.day == 1 and d.month == 1)
-            return (d if exact else None), d.year, exact, False
-    if "age" in cmap and pd.notna(row.get(cmap["age"])):
-        on = row.get(cmap["age_as_on"])
-        yr = parse_date(on).year if isinstance(on, str) and parse_date(on) else int(on)
-        return None, int(yr - int(row[cmap["age"]])), False, True
-    return None, None, False, False
+        d = pd.to_datetime(df[cmap["dob"]], format="%d-%m-%Y", errors="coerce")
+        has = d.notna()
+        exact = has & ~((d.dt.day == 1) & (d.dt.month == 1))
+        out.loc[has, "birth_year"] = d[has].dt.year
+        out.loc[exact, "birth_date"] = d[exact].dt.date
+        out.loc[exact, "birth_exact"] = True
+    if "age" in cmap:
+        need = out.birth_year.isna() & df[cmap["age"]].notna()
+        on = df.loc[need, cmap["age_as_on"]]
+        yr = (pd.to_datetime(on, format="%d-%m-%Y", errors="coerce").dt.year
+              if pd.api.types.is_string_dtype(on) else pd.to_numeric(on))
+        out.loc[need, "birth_year"] = (yr - df.loc[need, cmap["age"]]).astype("float")
+        out.loc[need, "age_only"] = True
+    return out
 
 
 def standardise(reg: str, df: pd.DataFrame) -> pd.DataFrame:
+    """Column-wise: each distinct name is parsed once, however many records carry it."""
     dept, cmap = REGISTERS[reg]
-    out = []
-    for row in df.to_dict("records"):
-        nm = row.get(cmap["name"])
-        n = split_name(nm if isinstance(nm, str) else "")
-        rv = row.get(cmap["rel_name"]) if "rel_name" in cmap else ""
-        rn = split_name(rv if isinstance(rv, str) else "")
-        bd, by, bx, ao = birth_fields(row, cmap)
-        out.append(dict(
-            record_id=row["record_id"], register=reg, department=dept,
-            name=row.get(cmap["name"]), first=n["first"] or None, middle=n["middle"] or None,
-            last=n["last"] or None, name_fold=n["fold"] or None, skel_first=n["skel_first"] or None,
-            skel_last=n["skel_last"] or None, rel_first=rn["first"] or None, rel_skel=rn["skel_first"] or None,
-            sex=SEX.get(str(row.get(cmap["sex"])).upper(), SEX.get(row.get(cmap["sex"]))),
-            birth_date=bd, birth_year=by, birth_exact=bx, age_only=ao,
-            aadhaar_token=token(row.get(cmap.get("aadhaar", ""))),
-            account_token=token(row.get(cmap["account"])) if "account" in cmap else None,
-            mobile_token=token(row.get(cmap["mobile"])) if "mobile" in cmap else None,
-            panchayat_key=place_key(row.get(cmap["panchayat"])) or None if "panchayat" in cmap else None,
-            block=(row.get(cmap["block"]) or None) if "block" in cmap else None,
-            doc_key=(f"{reg}:{row[cmap['doc']]}" if "doc" in cmap and row.get(cmap["doc"]) else None),
-            script="dev" if any("\u0900" <= ch <= "\u097f" for ch in str(row.get(cmap["name"]) or "")) else "rom",
-        ))
-    return pd.DataFrame(out)
+    col = lambda k: df[cmap[k]] if k in cmap else pd.Series([None] * len(df), index=df.index)
+    names = col("name").where(col("name").map(lambda v: isinstance(v, str)), "")
+    rels = col("rel_name").where(col("rel_name").map(lambda v: isinstance(v, str)), "")
+    parsed = {v: split_name(v) for v in pd.unique(pd.concat([names, rels]))}
+    pn = names.map(parsed)
+    pr = rels.map(parsed)
+    part = lambda s, k: s.map(lambda d: d[k] or None)
+    b = birth_columns(df, cmap)
+    tok = lambda k: col(k).map(token) if k in cmap else pd.Series([None] * len(df), index=df.index)
+    places = {v: place_key(v) or None for v in pd.unique(col("panchayat"))} if "panchayat" in cmap else {}
+    out = pd.DataFrame({
+        "record_id": df["record_id"], "register": reg, "department": dept, "name": col("name"),
+        "first": part(pn, "first"), "middle": part(pn, "middle"), "last": part(pn, "last"),
+        "name_fold": part(pn, "fold"), "skel_first": part(pn, "skel_first"), "skel_last": part(pn, "skel_last"),
+        "rel_first": part(pr, "first"), "rel_skel": part(pr, "skel_first"),
+        "sex": col("sex").map(lambda v: SEX.get(str(v).upper(), SEX.get(v))),
+        "birth_date": b.birth_date, "birth_year": b.birth_year, "birth_exact": b.birth_exact, "age_only": b.age_only,
+        "aadhaar_token": tok("aadhaar"), "account_token": tok("account"), "mobile_token": tok("mobile"),
+        "panchayat_key": col("panchayat").map(places) if "panchayat" in cmap else None,
+        "block": col("block") if "block" in cmap else None,
+        "doc_key": (reg + ":" + df[cmap["doc"]].astype(str)) if "doc" in cmap else None,
+        "script": names.map(lambda v: "dev" if any("\u0900" <= ch <= "\u097f" for ch in v) else "rom"),
+    })
+    return out
 
 
 def load_all(district: str) -> pd.DataFrame:
