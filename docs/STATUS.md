@@ -15,11 +15,11 @@ The definition of done was set in `docs/PLAN.md` before any code. Against it:
 | AC9 | Blinded (Bloom-filter) linkage runs; accuracy cost measured | **Met**: end to end on both districts; costs 0.3 points of recall in Almora, 4.2 in Udham Singh Nagar | `pipeline/blind_link.py`; `docs/RESULTS.md` |
 | AC10 | README, results, demo script, registration draft; rebuild from seed; UI check passes | **Met**: a rebuild from nothing (16 min) reproduced every figure exactly | this folder; `scripts_rebuild.sh`; `ui/check/ui_check.cjs` |
 
-## What is left for Aman
+## What is left
 
 1. **Record the three-minute demo video.** The script is `docs/DEMO.md`.
 2. **Decide on registration.** The draft is in `docs/REGISTRATION-DRAFT.md`. It is one entry per person, so P-001
-   and P-003 cannot both go in under your name.
+   and P-003 cannot both go in under one name.
 3. **Optional: host a read-only demo** for the prototype URL. The rival entry "Adhikar" has one, so this is worth
    considering.
 

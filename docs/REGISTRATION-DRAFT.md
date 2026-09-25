@@ -1,6 +1,6 @@
 # Registration draft — P-003 (not submitted)
 
-Aman decides whether and when to register. The rules allow one entry per person, so this and the P-001 draft
+The team decides whether and when to register. The rules allow one entry per person, so this and the P-001 draft
 cannot both be submitted under the same name.
 
 **Problem:** P-003 AI-Driven Integrated Beneficiary Data Governance

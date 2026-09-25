@@ -1,165 +1,119 @@
-# एकत्र · Ekatra — integrated beneficiary data governance
+# Ekatra (एकत्र): integrated beneficiary data governance
 
-**UKIS 2026 · Problem P-003 · Social Welfare Department, Uttarakhand**
+UKIS 2026, problem P-003 (Social Welfare Department, Uttarakhand).
 
-Ekatra links the beneficiary registers ten departments keep separately and shows a welfare officer two things
-each department cannot see alone:
+Links the beneficiary registers of ten departments for two districts and produces cases for a welfare officer:
+people who meet every published pension criterion and receive none, and payments that look wrong (paid after a
+registered death, duplicate enrolment, income above the limit, and others). Officers record decisions; no benefit
+changes automatically. Districts: Almora (hill) and Udham Singh Nagar (plains) at 1:1 scale. Geography, portal
+counts, rules and census shares are real; people and records are synthetic.
 
-- **who is left out:** a person who meets every published criterion for a pension and receives none;
-- **which payments look wrong:** paid after a registered death, enrolled twice, income above the limit, and more.
+## What is in this repository
 
-Every finding is a case for an officer, with the rule's own words, each department's record side by side, and the
-reason the records were judged to be one person. Nothing changes a benefit automatically.
-
-It runs on two whole districts at 1:1 scale, a hill district and a plains district, built from real geography
-and real published counts. The people in it are synthetic.
-
-## Status at a glance (25 September 2026)
-
-| | |
+| Path | Contents |
 |---|---|
-| **Solved** | All 10 acceptance criteria met (`docs/STATUS.md`). Two districts at 1:1 (2.3 million synthetic people, 4.7 million records, 10 registers in their own layouts and scripts). Cross-script record linkage with household consensus. Six finding types plus "left out" cases with a criterion trace citing the rule's source. Scheme overlap matrix, coverage and ₹ leakage by block. Six roles enforced in the query, masking with stated reason, hash-chained access log, review queue that changes no benefit. Blinded (Bloom-filter) linkage runs end to end. A rebuild from nothing reproduces every figure. |
-| **Measured** | Linkage precision 96.9%, recall 92.1% across both districts; each finding type's recall and precision per district; blinding costs 0.3 (hill) to 4.2 (plains) recall points. Details, including what did not work: `docs/RESULTS.md`. |
-| **Known gaps** | The people are synthetic; a pilot starts by measuring linkage on a real district extract. Widows are hard to find from records (a case needs the husband's registered death). People without Aadhaar in the plains: 71% of their pairs found. Logins are demo headers, not single sign-on. |
-| **Deferred (team to decide)** | Demo video (`docs/DEMO.md`), a hosted demo (a rival entry has one), hackathon registration (`docs/REGISTRATION-DRAFT.md`). |
+| `pipeline/generate.py` | Synthetic people, households and ten registers per district, each in its own layout and script, with planted problems |
+| `pipeline/standardise.py` | One layout; script-neutral name keys; keyed Aadhaar, account and mobile tokens |
+| `pipeline/link.py` | Record linkage with Splink (Fellegi-Sunter, EM-trained) on DuckDB, then a household-consensus pass |
+| `pipeline/blind_link.py` | The same linkage on Bloom-filter encodings; the matcher never sees a name |
+| `pipeline/findings.py` | Cases with a criterion trace citing `rules/schemes.yaml` |
+| `pipeline/warehouse.py` | `data/warehouse.duckdb`, the only data the application reads |
+| `rules/schemes.yaml` | Eligibility rules for three pensions, quoted with sources |
+| `api/` | FastAPI; `governance.py`: six roles, query scoping, masking, hash-chained access log |
+| `ui/` | React + Vite interface, Hindi and English; `ui/check/ui_check.cjs` page check |
+| `eval/report.py` | Linkage and finding accuracy against the planted truth |
+| `scraper/ssp_counts.js` | Pension counts per panchayat from ssp.uk.gov.in |
+| `data/ref/` | Portal counts (read 25 Sep 2026), committed |
+| `tests/` | 23 tests: normalisation, governance, API role matrix |
+| `docs/` | STATUS, PLAN, RESULTS, DATA, PRIVACY, DEMO, REGISTRATION-DRAFT |
 
-The plan and acceptance criteria this was built against: `docs/PLAN.md`. Data sources and assumptions: `docs/DATA.md`.
-Privacy design and the DPDP 2023 mapping: `docs/PRIVACY.md`.
+## Status (25 September 2026)
 
-## Run it on any machine
-
-Everything runs on one laptop, with no cloud service and no language model. Tested on Ubuntu under WSL2 with
-16 GB RAM; no GPU is used. Everything is generated from a committed seed and committed portal counts, so a fresh
-clone builds the identical dataset and identical numbers.
-
-| Need | Version / note |
+| Item | State |
 |---|---|
-| Python | 3.12 or newer (tested 3.14) |
-| Node | 20 or newer (tested 24), to build the interface |
-| RAM | 16 GB recommended for the build (Splink on DuckDB over 2.3 million people); serving needs far less |
-| Disk | About 3 GB under `data/` after a build |
-| Internet | pip and npm installs only. The portal scrape is optional; its results are committed in `data/ref/` |
+| Acceptance criteria (10, `docs/PLAN.md`) | All met; table in `docs/STATUS.md` |
+| Scale | 2 districts, 2.3 million people, 4.7 million records, 10 registers |
+| Findings | 6 integrity types and "left out" cases; scheme overlap matrix; coverage and ₹ leakage by block |
+| Governance | 6 roles; masking with recorded reason; hash-chained log; review queue |
+| Rebuild | From seed in 16 min; reproduces every figure |
+| Tests, page check | 23 pass; page check passes for 6 roles at 2 widths |
+| Demo video, hosted demo, registration | Not done |
 
-### Quick start: about 20 minutes, most of it the build
-
-```bash
-git clone <this repo> && cd ukis-p003
-python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
-./run.sh ui             # build the interface into ui/dist
-./run.sh build          # both districts: generate, standardise, link, find, evaluate, assemble (~16 min, deterministic)
-./run.sh serve          # http://127.0.0.1:8003
-./run.sh test           # 23 tests (the API tests need the build above)
-```
-
-Open the interface and pick a role at the top: District Social Welfare Officer (Almora or Udham Singh Nagar), a
-block officer, a state planner, another department, or the auditor. The API takes the same choice as an
-`X-Role` header (`/api/roles` lists them).
-
-Optional: `./run.sh build Almora` builds one district (about 3 minutes); one API test then fails on purpose, because it checks that the other district is refused. `./run.sh scrape` refreshes the pension
-counts from ssp.uk.gov.in (Chromium via Playwright, about 40 minutes per district; `npm install && npx playwright install chromium` first).
-`./run.sh ui-check` drives every page for every role at phone and desktop widths and fails on any console error,
-overflow, or a case reachable outside a role's posting; screenshots land in `ui/check/shots/`.
-
-### What is committed, what is generated
-
-| Committed | Generated by `./run.sh build` |
-|---|---|
-| Code, `rules/schemes.yaml` (eligibility rules with sources), `data/ref/` (portal counts per panchayat, read 25 Sep 2026), evaluation results, docs, interface screenshots | `data/gen/` (registers and planted truth), `data/warehouse.duckdb` (what the application may read), `data/audit.db` (access log, created on first request) |
-
-## Built on what is real
-
-| Real | Synthetic |
-|---|---|
-| All 1,116 gram panchayats of Almora and the panchayats and towns of Udham Singh Nagar, as listed on the Social Welfare Department's pension portal | Every person, household and record |
-| Pensioners per panchayat and scheme on that portal (read 25 Sep 2026); the synthetic rolls match them | Planted problems (deaths still paid, duplicates, rings) whose sizes are stated assumptions |
-| Eligibility rules and the ₹1,500 rate, quoted word for word with their source | |
-| Census 2011 size, sex ratio, SC/ST shares and language mix of each district | |
-| Naming conventions of Kumaoni, plains Hindu, Sikh, Muslim, Bengali and Tharu communities, in both scripts | |
-
-See `docs/DATA.md` for every source and assumption.
-
-## Measured, not claimed
-
-Against the planted truth of 2.3 million synthetic people and 4.7 million records:
+## Results (against the planted truth)
 
 | | Almora (hill) | Udham Singh Nagar (plains) |
 |---|---|---|
-| Record pairs joined correctly / true pairs found | 98.6% / 96.4% | 96.0% / 89.7% |
+| Linkage precision / recall | 98.6% / 96.4% | 96.0% / 89.7% |
 | Hindi-script vs English-script pairs found | 96.4% | 89.3% |
-| Pensions paid after a registered death: found / right when raised | 78.6% / 92.3% | 68.0% / 83.5% |
-| Pensioners with a Treasury income above the limit: found / right | 97.4% / 88.4% | 94.3% / 90.6% |
-| Accounts receiving several unrelated pensions: found / right | 97.2% / 100% | 100% / 100% |
-| "Left out" cases right, old-age (high priority) | 88.2% (90.1%) | 65.9% (80.5%) |
-| "Left out" cases right, disability | 99.2% | 98.3% |
+| Paid after a registered death: recall / precision | 78.6% / 92.3% | 68.0% / 83.5% |
+| Income above the limit: recall / precision | 97.4% / 88.4% | 94.3% / 90.6% |
+| Several unrelated pensions on one account: recall / precision | 97.2% / 100% | 100% / 100% |
+| "Left out" old-age cases precision (high priority) | 88.2% (90.1%) | 65.9% (80.5%) |
+| "Left out" disability cases precision | 99.2% | 98.3% |
 
-With names blinded (Bloom-filter encodings; the matcher never sees a name), recall drops by 0.3 points in Almora
-and 4.2 in Udham Singh Nagar; precision is unchanged.
+Blinded linkage: recall 0.3 points lower in Almora, 4.2 in Udham Singh Nagar; precision unchanged. Weakest groups:
+plains people without Aadhaar (71% of pairs found) and widows (a case needs the husband's registered death).
+Full results: `docs/RESULTS.md`.
 
-Weakest spots, stated plainly: people without Aadhaar in the plains (71% of their record pairs found), and widows
-(a case needs the husband's registered death, so most older widows cannot be found from records).
+## Run
 
-Full results, including what did not work, are in `docs/RESULTS.md`.
+Tested on Ubuntu (WSL2), 16 GB RAM. No GPU, no language model, no cloud service.
 
-## How it works
+| Requirement | Note |
+|---|---|
+| Python 3.12+ | tested 3.14 |
+| Node 20+ | tested 24; builds the interface |
+| RAM | 16 GB recommended for the build |
+| Disk | about 3 GB under `data/` after a build |
+| Internet | pip and npm only; portal counts are committed |
 
+```bash
+python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+./run.sh ui
+./run.sh build            # both districts, about 16 min, deterministic
+./run.sh serve            # http://127.0.0.1:8003
+./run.sh test             # needs the build
 ```
-ssp.uk.gov.in ─► scraper/ssp_counts.js ─► pension counts per panchayat (real)
-                                              │
-pipeline/generate.py ─► people, households, ten department registers, each in its own layout and script
-pipeline/standardise.py ─► one layout; names folded to script-neutral keys; Aadhaar, account, mobile → keyed tokens
-pipeline/link.py ─► Splink (Fellegi-Sunter, EM-trained) on DuckDB, then a household-consensus pass
-pipeline/findings.py ─► cases: left out, paid wrongly; each with a criterion trace citing rules/schemes.yaml
-pipeline/warehouse.py ─► data/warehouse.duckdb: what the application may read (no planted truth)
-api/ ─► FastAPI; the officer's posting folded into every query; masking; hash-chained access log
-ui/ ─► React interface in Hindi and English
-eval/ ─► linkage and findings accuracy against the planted truth
-```
 
-**Matching across scripts.** भगवती देवी बिष्ट on the pension roll and BHAGAWATI BIST on a ration card are
-transliterated, folded (aspiration, long vowels, v/w/b, final schwa) and reduced to a consonant skeleton (`bgbt`),
-so the two can be compared at all. The model then scores each pair field by field and learns the weights.
+Roles: pick one in the interface, or send `X-Role: <key>` to the API (`/api/roles` lists them).
 
-**Households.** Ration cards, Parivar registers and job cards list whole families. When two such documents share
-two matched members, they are one household, and a same-named member of similar age on both is the same person,
-even with the surname missing. This pass adds 5 to 10 points of recall and is more than 99% precise.
+| Command | Note |
+|---|---|
+| `./run.sh build Almora` | one district, about 3 min; one scope test then fails by design |
+| `./run.sh ui-check` | Playwright page check; needs `npm install && npx playwright install chromium` |
+| `./run.sh scrape` | refresh portal counts, about 40 min per district |
 
-**Refusing to guess.** Two records with different Aadhaar numbers are never joined. A person is not raised as
-"left out" while a nearby pension or death record could be theirs and was not linked. A State Food Scheme card
-alone does not prove income under ₹4,000, so those people form a survey list, not cases.
+Generated, not committed: `data/gen/`, `data/warehouse.duckdb`, `data/audit.db`.
+
+## Method
+
+- Cross-script matching: names are transliterated, folded (aspiration, long vowels, v/w/b, final schwa) and reduced
+  to a consonant skeleton (भगवती देवी बिष्ट and BHAGAWATI BIST both give `bgbt`), then scored field by field with
+  learned weights.
+- Households: two family documents that share two matched members are one household; same-named members of similar
+  age on both are one person. Adds 5 to 10 recall points at over 99% precision.
+- Records with different Aadhaar numbers are never joined. A person is not raised as "left out" while an unlinked
+  nearby pension or death record could be theirs. A State Food Scheme card alone does not prove income under
+  ₹4,000; those people go to a survey list, not to cases.
 
 ## Governance
 
-Six roles, each enforced in the query. Examples: a block officer sees their own block only; a state planner sees
-figures only, with cells under 10 withheld; another department sees its own programme's overlaps. Names stay masked
-until an officer opens a case and states why. Aadhaar and bank numbers are never shown in full. Every access is
-appended to a log chained by hash, which the database refuses to edit. See `docs/PRIVACY.md`, including the DPDP
-2023 mapping.
-
-## Repository map
-
-| Path | What it is |
-|---|---|
-| `pipeline/` | `generate.py` → `standardise.py` → `link.py` → `findings.py` → `warehouse.py`; `blind_link.py` (Bloom-filter variant); `samples.py` |
-| `rules/schemes.yaml` | Eligibility rules for the three pensions, quoted with sources |
-| `api/` | FastAPI: cases, people, planning figures, review decisions, access log; `governance.py` roles, masking, audit chain |
-| `ui/` | React + Vite + Tailwind interface; `ui/check/ui_check.cjs` the Playwright page check |
-| `eval/report.py` | Linkage and finding accuracy against the planted truth |
-| `scraper/ssp_counts.js` | Portal scraper for the real pension counts |
-| `tests/` | Normalisation, governance and API tests |
-| `docs/` | STATUS, PLAN, RESULTS, DATA, PRIVACY, DEMO, REGISTRATION-DRAFT |
+Six roles enforced in the query: a block officer sees their own block; a state planner sees figures only, with cells
+under 10 withheld; another department sees its own overlaps. Names stay masked until a reason is recorded. Aadhaar
+and bank numbers are never shown in full. Every access is appended to a hash-chained log. DPDP 2023 mapping:
+`docs/PRIVACY.md`.
 
 ## Third-party components
 
-Splink 4 (MIT, UK Ministry of Justice) · DuckDB (MIT) · pandas, NumPy (BSD) · indic-transliteration (MIT) ·
-FastAPI, Uvicorn, Pydantic (MIT/BSD) · PyYAML (MIT) · React (MIT) · Vite (MIT) · Tailwind CSS (MIT) · Mukta and
-Tiro Devanagari Hindi fonts (SIL OFL, via Fontsource) · Playwright (Apache-2.0). Portal figures are the Social
-Welfare Department's public counts. All code in `pipeline/`, `api/`, `ui/src/`, `eval/` and `scraper/` is original
-to this entry.
+Splink 4 (MIT) · DuckDB (MIT) · pandas, NumPy (BSD) · indic-transliteration (MIT) · FastAPI, Uvicorn, Pydantic ·
+PyYAML · React · Vite · Tailwind CSS · Mukta and Tiro Devanagari Hindi fonts (SIL OFL) · Playwright (Apache-2.0).
+Portal figures are the Social Welfare Department's public counts.
 
 ## Limits
 
-- The people are synthetic. Real registers will fail in ways the generator does not model; a pilot starts by
-  measuring the linkage on a real district extract against a hand-checked sample.
-- No register shows income. Cases say so, and ask for income to be confirmed at the visit.
-- People on no register cannot be found by linking records; only a survey reaches them.
-- Logins are demo headers; a deployment would use the state's single sign-on.
+- People are synthetic; a pilot needs a real district extract with a hand-checked sample.
+- No register shows income; cases ask for it to be confirmed at the visit.
+- People on no register are not found by linking.
+- Most older widows are not found: a case needs the husband's registered death.
+- Plains people without Aadhaar: 71% of pairs found.
+- Logins are demo headers, not single sign-on.

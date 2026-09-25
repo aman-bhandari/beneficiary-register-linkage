@@ -22,7 +22,7 @@ We cannot win by doing the same thing. We win on what it lacks:
 | Dirty data | "Distortion" | Realistic data problems (documented patterns): 1-Jan birth-date heaping, age-only records, **Hindi-script vs English-script names**, name change after marriage, relation name variants, missing Aadhaar, shared mobiles |
 | Exclusion | Rule on declared fields | **Found through linkage**: husband's death in the death register → widow not enrolled; turned 60 → still on widow roll; disability certificate register → not enrolled |
 | Leakage | Duplicates | + **Paid after death** (death register), widow→old-age transfer missed, shared bank account clusters, with ₹ at the real monthly rate |
-| Honesty about harm | One P/R number | P/R **per hard-case group** — who the matcher fails (elderly with estimated age, married women, cross-script) — because a wrong merge is an exclusion |
+| Accuracy per group | One P/R number | P/R **per hard-case group** — who the matcher fails (elderly with estimated age, married women, cross-script) — because a wrong merge is an exclusion |
 | Family ID | — | Household view built for the **Devbhoomi Family Act 2026** (senior-most woman head); family-dependent rules (widow's son over 20) |
 | Privacy | Bloom filters | Keyed tokens + Bloom-filter mode, with the **accuracy cost measured** clear vs blinded; DPDP Rules 2025 mapping; small-cell suppression on aggregates |
 
@@ -49,7 +49,7 @@ We cannot win by doing the same thing. We win on what it lacks:
 | 0.4 | Splink on that district: train + predict + cluster | P ≥ 95%, R ≥ 90%, < 20 min |
 | 0.5 | Cross-script: Devanagari ↔ Roman name matching key | ≥ 90% of planted cross-script pairs found |
 | 0.6 | Bloom-filter blinded comparison on 50k pairs | runs; accuracy cost measured |
-**Gate:** if 0.4 fails at district scale → shrink to the largest scale that passes; if linkage quality fails → tell Aman before building on it.
+**Gate:** if 0.4 fails at district scale → shrink to the largest scale that passes; if linkage quality fails → stop and report before building on it.
 
 ## Plan test results (25 Sep 2026) — all six go/no-go tests run
 | Test | Result | Pass? |
@@ -86,7 +86,7 @@ Scale headroom: a district links in under a minute, so more districts are a scra
 | 4.2 | Hash-chained audit + review decisions (SQLite) + verify endpoint | 45 min |
 | 4.3 | FastAPI endpoints + pytest role matrix | 60 min |
 
-## Phase 5 — UI (5 steps) — load the `frontend-design` skill first (Aman, 25 Sep)
+## Phase 5 — UI (5 steps)
 | 5.1 | Shell: role switcher, bilingual labels, overview numbers from DB | 60 min |
 | 5.2 | Case register + case view (evidence side by side, criterion trace, match weights) | 60 min |
 | 5.3 | Review actions + audit page (with chain verification) | 45 min |
@@ -97,7 +97,7 @@ Scale headroom: a district links in under a minute, so more districts are a scra
 | 6.1 | Playwright UI check script: every page, every role, phone + desktop widths | 45 min |
 | 6.2 | Fresh rebuild from seed, all tests, all evals; RESULTS.md with every number | 45 min |
 | 6.3 | README, architecture, third-party disclosure, DPDP mapping, limits | 45 min |
-| 6.4 | Demo script + registration draft (**not submitted** — Aman decides) | 30 min |
+| 6.4 | Demo script + registration draft (**not submitted**) | 30 min |
 
 Total: 31 steps, about 25 working hours. Out of scope: real citizen data, live integrations, an LLM, hosting.
 
@@ -111,4 +111,4 @@ Total: 31 steps, about 25 working hours. Out of scope: real citizen data, live i
 | AC8 planning | block coverage, survey list, leakage ₹ |
 | AC9 blinded | Bloom-filter linkage end to end (`pipeline/blind_link.py`), cost measured in docs/RESULTS.md |
 | AC10 ship | README, RESULTS, DATA, PRIVACY, DEMO, STATUS, registration draft; rebuild from seed is deterministic; UI check passes (6 roles × 2 widths) |
-This repository. Not done by design: registration (Aman's call), demo video (needs a screen recording), hosting.
+This repository. Not done by design: registration (team decision), demo video (needs a screen recording), hosting.

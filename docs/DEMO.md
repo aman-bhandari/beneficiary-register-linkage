@@ -15,7 +15,7 @@ brackets are what the screen shows.
 | 1:55 | Switch role to the Hawalbagh block officer; try the same case URL | "A block officer sees only her block. The case from another block is not hidden. The database never returns it." |
 | 2:10 | Switch to State planning officer → Planning | "The state planner sees blocks, not people. Coverage, leakage and overlaps, with small counts withheld." |
 | 2:25 | Access log → Verify the chain | "Every view is logged, chained by hash. Edit one entry and verification names it." |
-| 2:35 | Method page, accuracy tables | "And it is measured, not claimed: how often a match is right, and how often each finding is right, broken down by the groups most at risk: widows, people without Aadhaar, Muslim and Sikh names." |
+| 2:35 | Method page, accuracy tables | "Accuracy: how often a match is right, and how often each finding is right, broken down by the groups most at risk: widows, people without Aadhaar, Muslim and Sikh names." |
 | 2:50 | Back to Overview | "Real geography, real portal counts, real rules. Synthetic people. Ready for a real district extract." |
 
 ## Before recording
