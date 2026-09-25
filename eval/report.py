@@ -21,14 +21,19 @@ if __name__ == "__main__":
     for d in districts:
         recs, persons = linkage_eval.load(d)
         p1, _ = linkage_eval.load(d, "clusters_pass1.parquet")
-        out["linkage"].append(dict(district=d, overall=linkage_eval.evaluate(recs), pass1=linkage_eval.evaluate(p1),
+        blind = None
+        if (ROOT / "data" / "gen" / d.lower().replace(" ", "_") / "clusters_blind.parquet").exists():
+            b, _ = linkage_eval.load(d, "clusters_blind.parquet")
+            blind = linkage_eval.evaluate(b)
+        out["linkage"].append(dict(district=d, overall=linkage_eval.evaluate(recs), pass1=linkage_eval.evaluate(p1), blind=blind,
                                    groups=linkage_eval.by_group(recs, persons), register_pairs=linkage_eval.by_register(recs)))
         out["findings"].append(findings_eval.evaluate(d))
     (ROOT / "eval" / "results.json").write_text(json.dumps(out, indent=1, default=str))
     for l, f in zip(out["linkage"], out["findings"]):
         o = l["overall"]
         print(f"{l['district']}: linkage precision {o['precision']:.1%} recall {o['recall']:.1%} "
-              f"(first pass {l['pass1']['precision']:.1%} / {l['pass1']['recall']:.1%})")
+              f"(first pass {l['pass1']['precision']:.1%} / {l['pass1']['recall']:.1%})"
+              + (f"; blinded {l['blind']['precision']:.1%} / {l['blind']['recall']:.1%}" if l.get("blind") else ""))
         for x in f["integrity"]:
             print(f"   {x['type']:22s} planted {x['planted']:5d} found {x['recall']:.1%} right {x['precision']:.1%}")
         for x in f["exclusion"]:

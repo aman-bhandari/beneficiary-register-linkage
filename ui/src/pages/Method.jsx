@@ -43,12 +43,16 @@ export default function Method({ role }) {
           {acc.linkage.map((d) => (
             <div key={d.district} className="mb-8">
               <h3 className="font-medium text-lg mb-2">{d.district}: {d.overall.records.toLocaleString('en-IN')} records</h3>
+              {d.blind && <p className="text-[15px] text-ink-soft mb-2 max-w-3xl">
+                With names blinded (Bloom-filter encodings, hashed keys: the matcher never sees a name),
+                {' '}{pct(d.blind.precision)} of joins are correct and {pct(d.blind.recall)} of true pairs are found,
+                against {pct(d.overall.precision)} and {pct(d.overall.recall)} with names in clear.</p>}
               <table className="ledger">
                 <thead><tr><th>Group</th><th className="num">Pairs</th><th className="num">Correct</th><th className="w-40"></th><th className="num">Found</th><th className="w-40"></th></tr></thead>
                 <tbody>
                   {d.groups.map((g) => (
                     <tr key={g.group}>
-                      <td>{g.group === 'everyone' ? <span className="font-medium">Everyone</span> : g.group}</td>
+                      <td>{g.group === 'everyone' ? <span className="font-medium">Everyone</span> : g.group[0].toUpperCase() + g.group.slice(1)}</td>
                       <td className="num">{g.true_pairs.toLocaleString('en-IN')}</td>
                       <td className="num">{pct(g.precision)}</td><td>{g.precision != null && <Bar value={g.precision} max={1} tone="stamp" label="correct" />}</td>
                       <td className="num">{pct(g.recall)}</td><td><Bar value={g.recall} max={1} tone="ink" label="found" /></td>
@@ -72,6 +76,10 @@ export default function Method({ role }) {
                   <thead><tr><th>Finding</th><th className="num">Planted</th><th className="num">Found</th><th className="num">Right when raised</th></tr></thead>
                   <tbody>{d.integrity.map((x) => <tr key={x.type}><td>{CASE_TYPES[x.type]?.en}</td><td className="num">{x.planted}</td><td className="num">{pct(x.recall)}</td><td className="num">{pct(x.precision)}</td></tr>)}</tbody>
                 </table>
+                {d.ghosts && <p className="text-[15px] text-ink-soft mt-3">
+                  Ghost pensioners are not raised as cases. {d.ghosts.pension_records_with_no_corroboration?.toLocaleString('en-IN')} pension
+                  records are known to no other register, against {d.ghosts.planted} planted ghosts: most are people the
+                  linkage missed, so each needs a field visit, not a case.</p>}
               </div>
               <div>
                 <h3 className="font-medium text-lg mb-2">{d.district}: people left out</h3>

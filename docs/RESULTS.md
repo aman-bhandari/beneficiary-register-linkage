@@ -44,6 +44,20 @@ entirely on names, dates and places, and plains panchayats are large, with many 
 exclusion from a linkage system starts. It is why a case is never raised on a person while a nearby unlinked
 record could be theirs.
 
+### Privacy mode: names never reach the matcher
+
+With every name replaced by a Bloom-filter encoding and every blocking key by a keyed hash
+(`pipeline/blind_link.py`), the same model and household pass give:
+
+| | Names in clear | Names blinded | Cost |
+|---|---|---|---|
+| Almora correct / found | 98.6% / 96.4% | 98.6% / 96.1% | 0.3 points of recall |
+| Udham Singh Nagar correct / found | 96.0% / 89.7% | 95.9% / 85.5% | 4.2 points of recall |
+
+In the plains the cost is larger, because blinded names cannot be compared for close spellings in the household
+pass, and plains names depend on exactly that. A department that must not share names can still take part, at
+that measured price.
+
 ### What each part contributes
 
 | Configuration | Almora correct / found | USN correct / found |
@@ -114,6 +128,11 @@ and pension records the linkage missed. The near-miss guard catches a share of t
 | Near-miss search across the whole block | Suppressed nine real cases in ten | Narrowed to the panchayat |
 | Letting the model learn the "same document" weight | It learnt that siblings on one card are a match (precision fell to 87%) | Weight fixed at −12 bits |
 | An ex-servicemen register | 420 of 1,036 wrong high-priority cases in Almora were ex-servicemen whose defence pension nothing showed | Added the Sainik Kalyan register; those cases disappeared |
+
+## Reproducibility
+
+A rebuild from nothing (`rm -rf data/gen && ./run.sh build`) takes 972 seconds on the laptop. It reproduced every
+linkage and findings figure above exactly: the generator, the training sample and the clustering are all seeded.
 
 ## Tests
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-25 10:28",
+ "generated": "2026-09-25 10:51",
  "linkage": [
   {
    "district": "Almora",
@@ -22,6 +22,16 @@
     "correct_pairs": 1146737,
     "precision": 0.9862,
     "recall": 0.9104
+   },
+   "blind": {
+    "records": 1481204,
+    "persons_true": 639549,
+    "persons_found": 663489,
+    "true_pairs": 1259649,
+    "predicted_pairs": 1227250,
+    "correct_pairs": 1210084,
+    "precision": 0.986,
+    "recall": 0.9607
    },
    "groups": [
     {
@@ -293,6 +303,16 @@
     "correct_pairs": 1820449,
     "precision": 0.9618,
     "recall": 0.7955
+   },
+   "blind": {
+    "records": 3231909,
+    "persons_true": 1633123,
+    "persons_found": 1833466,
+    "true_pairs": 2288382,
+    "predicted_pairs": 2040641,
+    "correct_pairs": 1956041,
+    "precision": 0.9585,
+    "recall": 0.8548
    },
    "groups": [
     {

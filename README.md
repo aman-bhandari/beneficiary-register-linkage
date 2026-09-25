@@ -40,6 +40,9 @@ Against the planted truth of 2.3 million synthetic people and 4.7 million record
 | "Left out" cases right, old-age (high priority) | 88.2% (90.1%) | 65.9% (80.5%) |
 | "Left out" cases right, disability | 99.2% | 98.3% |
 
+With names blinded (Bloom-filter encodings; the matcher never sees a name), recall drops by 0.3 points in Almora
+and 4.2 in Udham Singh Nagar; precision is unchanged.
+
 Weakest spots, stated plainly: people without Aadhaar in the plains (71% of their record pairs found), and widows
 (a case needs the husband's registered death, so most older widows cannot be found from records).
 
@@ -87,7 +90,7 @@ Everything runs on one laptop (tested on 16 GB RAM, WSL2). No cloud service and 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
 (cd ui && npm install && npx vite build)
-./run.sh build        # generate, link, find, evaluate, assemble: about 12 minutes for both districts
+./run.sh build        # generate, link, find, evaluate, assemble: 16 minutes for both districts, deterministic
 ./run.sh serve        # http://127.0.0.1:8003
 ./run.sh test         # unit and API tests
 ~/.claude/browser/run.sh ui/check/ui_check.cjs    # every page, every role, phone and desktop

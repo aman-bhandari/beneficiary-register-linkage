@@ -288,7 +288,7 @@ def planning(x_role: str | None = Header(None), district: str | None = None):
                sum(case when alive and pensions like '%widow%' then 1 else 0 end) widow_pensioners,
                sum(case when alive and pensions like '%disability%' then 1 else 0 end) disability_pensioners,
                sum(case when survey_list then 1 else 0 end) survey_list
-        from people where {where} group by 1, 2 order by 1, 2""", p)
+        from people where {where} and block is not null group by 1, 2 order by 1, 2""", p)
     cw, cp = scope_sql(role)
     if district:
         cw += " and district = ?"
