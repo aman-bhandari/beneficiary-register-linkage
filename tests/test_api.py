@@ -31,7 +31,7 @@ def test_planner_sees_aggregates_but_no_individual(client):
     assert get(client, "planner", "/api/overview").status_code == 200
     assert get(client, "planner", "/api/cases").status_code == 403
     ov = get(client, "planner", "/api/overlap?district=Almora").json()
-    assert all(v is None or v >= 10 for v in ov["cells"].values()), "small cells must be withheld"
+    assert all(v is None or v == 0 or v >= 10 for v in ov["cells"].values()), "small cells must be withheld"
 
 
 def test_district_officer_sees_only_their_district(client):

@@ -28,7 +28,7 @@ WAREHOUSE = ROOT / "data" / "warehouse.duckdb"
 RULES = yaml.safe_load((ROOT / "rules" / "schemes.yaml").read_text())
 UI = ROOT / "ui" / "dist"
 
-app = FastAPI(title="Samagra — integrated beneficiary data governance", version="1.0")
+app = FastAPI(title="Ekatra — integrated beneficiary data governance", version="1.0")
 audit = Audit()
 _local = threading.local()
 
@@ -83,7 +83,8 @@ def overview(x_role: str | None = Header(None)):
     role = role_of(x_role)
     where, p = scope_sql(role)
     total_cases = one("select count(*) from cases")
-    counts = q(f"""select kind, type, scheme, count(*) n, sum(amount_rs) amount,
+    counts = q(f"""select kind, type, case when type = 'two_pensions' then null else scheme end scheme,
+                          count(*) n, sum(amount_rs) amount,
                           sum(case when priority='high' then 1 else 0 end) high
                    from cases where {where} group by 1, 2, 3 order by 1, 4 desc""", p)
     people = q(f"""select count(*) people, sum(case when alive then 1 else 0 end) alive,
@@ -216,6 +217,13 @@ def case(case_id: str, x_role: str | None = Header(None)):
     unm = audit.is_unmasked(case_id, role.key)
     c["trace"] = json.loads(c["trace"])
     c["evidence"] = json.loads(c["evidence"])
+    if not unm:
+        # document numbers inside the explanation are masked like the records they come from
+        hide = lambda t: re.sub(r"\d{6,}", lambda m: "•" * (len(m.group()) - 3) + m.group()[-3:], t) if isinstance(t, str) else t
+        for tr in c["trace"]:
+            tr["evidence"] = hide(tr.get("evidence"))
+        for e in c["evidence"]:
+            e["detail"] = hide(e.get("detail"))
     detail = _person(c["person_key"], role, unm)
     audit.log(role.key, "open_case", case_id, {"masked": not unm})
     reviews = audit.reviews([case_id])
@@ -355,7 +363,7 @@ def audit_verify(x_role: str | None = Header(None)):
 def method(x_role: str | None = Header(None)):
     role_of(x_role)
     acc = json.loads(one("select report from accuracy") or "{}")
-    calib = [dict(district=m["district"], **json.loads(m["summary"])) for m in q("select district, summary from meta")]
+    calib = [json.loads(m["summary"]) for m in q("select district, summary from meta")]
     return dict(rules=RULES, accuracy=acc, calibration=calib)
 
 
@@ -375,14 +383,18 @@ SYNONYMS = {
 
 
 def guess_mapping(headers: list[str]) -> dict:
+    """Map a department's column headers to the common fields by whole words ('Village' is not an age column)."""
+    words = {h: re.findall(r"[a-z\u0900-\u097f]+", h.lower()) for h in headers}
+    hit = lambda h, keys: any(w == k or w.startswith(k) for w in words[h] for k in keys)
     m = {}
     for field, keys in SYNONYMS.items():
         for h in headers:
-            if any(k in h.lower() for k in keys) and h not in m.values():
-                if field == "name" and any(k in h.lower() for k in SYNONYMS["rel_name"]):
-                    continue
-                m[field] = h
-                break
+            if h in m.values() or not hit(h, keys):
+                continue
+            if field == "name" and hit(h, SYNONYMS["rel_name"]):
+                continue
+            m[field] = h
+            break
     return m
 
 

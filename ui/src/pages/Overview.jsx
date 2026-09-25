@@ -18,10 +18,10 @@ export default function Overview({ role }) {
     <div>
       {/* the opening line is the finding that matters most: people entitled and not paid */}
       <section className="max-w-4xl mb-10">
-        <p className="hi text-[2.1rem] sm:text-[2.6rem] leading-[1.2] text-ink" lang="hi">
+        <h1 className="hi text-[2.1rem] sm:text-[2.6rem] leading-[1.2] text-ink font-normal" lang="hi">
           {where === 'the two districts' ? 'दोनों जनपदों' : 'इस क्षेत्र'} में <span className="text-ochre">{leftOut.toLocaleString('en-IN')}</span> लोग
           पेंशन के पात्र दिखते हैं, पर उन्हें कोई पेंशन नहीं मिल रही।
-        </p>
+        </h1>
         <p className="text-xl text-ink-soft mt-3 max-w-3xl">
           In {where}, {leftOut.toLocaleString('en-IN')} people appear to meet every published criterion for a pension and
           receive none. {int.reduce((a, c) => a + (c.n || 0), 0).toLocaleString('en-IN')} payments need checking, worth
@@ -39,7 +39,7 @@ export default function Overview({ role }) {
       <div className="grid lg:grid-cols-2 gap-x-12 gap-y-10">
         <section aria-labelledby="left-out">
           <Heading level={2} hi="जो छूट गए" en="People left out" />
-          <table className="ledger" id="left-out">
+          <div className="overflow-x-auto"><table className="ledger min-w-[22rem]" id="left-out">
             <thead><tr><th>Scheme</th><th className="num">People</th><th className="num">High priority</th></tr></thead>
             <tbody>
               {exc.map((c) => (
@@ -52,7 +52,7 @@ export default function Overview({ role }) {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
           <p className="text-[15px] text-ink-soft mt-3 max-w-prose">
             Each case lists the criteria met, the register each fact came from, and the published text of the rule.
             High priority means a priority ration card proves low income and the age or widowhood is well evidenced.
@@ -61,7 +61,7 @@ export default function Overview({ role }) {
 
         <section aria-labelledby="payments">
           <Heading level={2} hi="भुगतान जिनकी जाँच हो" en="Payments to check" />
-          <table className="ledger" id="payments">
+          <div className="overflow-x-auto"><table className="ledger min-w-[22rem]" id="payments">
             <thead><tr><th>Finding</th><th className="num">Cases</th><th className="num">A year</th></tr></thead>
             <tbody>
               {int.map((c) => (
@@ -71,11 +71,11 @@ export default function Overview({ role }) {
                     {c.scheme && SCHEMES[c.scheme] && <span className="text-ink-faint">, {SCHEMES[c.scheme].en.toLowerCase()}</span>}
                   </td>
                   <td className="num">{num(c.n)}</td>
-                  <td className="num">{c.type === 'two_pensions' ? <span className="text-ink-faint">rule unclear</span> : rs(c.amount)}</td>
+                  <td className="num whitespace-nowrap">{c.type === 'two_pensions' ? <span className="text-ink-faint">rule unclear</span> : rs(c.amount)}</td>
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
           <p className="text-[15px] text-ink-soft mt-3 max-w-prose">
             Amounts use the published rate of ₹1,500 a month. For payments after death, it is the months paid since
             the registered date of death.
@@ -85,7 +85,7 @@ export default function Overview({ role }) {
 
       <section className="mt-12">
         <Heading level={2} hi="क्या जोड़ा गया" en="What was linked" />
-        <table className="ledger max-w-4xl">
+        <div className="overflow-x-auto"><table className="ledger max-w-4xl min-w-[40rem]">
           <thead><tr><th>District</th><th className="num">Households</th><th className="num">Living people</th><th className="num">Register records</th><th className="num">Pensioners on the portal</th><th className="num">In this system</th></tr></thead>
           <tbody>
             {data.districts.map((d) => (
@@ -99,7 +99,7 @@ export default function Overview({ role }) {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
         <p className="text-[15px] text-ink-soft mt-3 max-w-3xl">
           Pensioner counts per gram panchayat were read from ssp.uk.gov.in on 25 September 2026, and the synthetic
           rolls are sized to match them. The people and their records are generated; the geography and counts are real.

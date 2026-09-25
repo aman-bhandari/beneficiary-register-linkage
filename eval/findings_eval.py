@@ -17,7 +17,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent.parent
 PLANT_FOR = {"paid_after_death": "died_still_paid", "duplicate_enrolment": "duplicate_same_scheme",
              "two_pensions": "two_pensions", "income_above_limit": "treasury_income",
-             "age_disagreement": "age_inflated", "shared_account": "account_ring", "uncorroborated": "ghost"}
+             "age_disagreement": "age_inflated", "shared_account": "account_ring"}
 
 
 def majority_pid(g: Path) -> pd.Series:
@@ -50,6 +50,10 @@ def evaluate(district: str) -> dict:
                                      recall=round(len(hit) / len(planted), 4) if planted else None,
                                      precision=round((len(hit) + also_true) / len(flagged), 4) if flagged else None))
 
+    # ghosts: not raised as cases (too many linkage misses look the same); report the size of the problem instead
+    u = g / "uncorroborated.json"
+    out["ghosts"] = dict(planted=int((truth.plant == "ghost").sum()),
+                         pension_records_with_no_corroboration=json.loads(u.read_text())["pension_records"] if u.exists() else None)
     pid = majority_pid(g)
     exc = cases[cases.kind == "exclusion"].copy()
     exc["pid"] = exc.person_key.map(pid)

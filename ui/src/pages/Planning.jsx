@@ -47,7 +47,7 @@ function Blocks({ data }) {
             <tr>
               <th>Block</th><th className="num">Living people</th><th className="num">Aged 60+ with a priority ration card</th>
               <th className="w-44"></th><th className="num">Old-age pensioners linked</th><th className="num">On the portal</th>
-              <th className="num">Left out</th><th className="num">Payments to check</th><th className="num">A year</th>
+              <th className="num">Left out</th><th className="num">Survey list</th><th className="num">Payments to check</th><th className="num">A year</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +60,7 @@ function Blocks({ data }) {
                 <td className="num">{num(b.old_age_pensioners)}</td>
                 <td className="num">{b.portal ? Number(b.portal.old_age).toLocaleString('en-IN') : '—'}</td>
                 <td className="num text-ochre font-medium">{num(b.left_out)}</td>
+                <td className="num text-ink-soft">{num(b.survey_list)}</td>
                 <td className="num text-red-ink">{num(b.integrity)}</td>
                 <td className="num">{rs(b.leakage_rs)}</td>
               </tr>
@@ -70,6 +71,8 @@ function Blocks({ data }) {
       <p className="text-[15px] text-ink-soft mt-3 max-w-3xl">
         "On the portal" is the Social Welfare Department's own count for the block. "Linked" counts people whose pension
         record was matched to at least one other register, so the gap between the two is people known to one department only.
+        The survey list is people aged 60 and over with only a State Food Scheme card: likely eligible, but their income
+        has to be checked at the door before a case is raised.
       </p>
       <h3 className="font-medium text-lg mt-8 mb-2">All findings</h3>
       <table className="ledger max-w-2xl">

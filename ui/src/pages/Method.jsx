@@ -15,7 +15,7 @@ export default function Method({ role }) {
       <Heading hi="पद्धति और सटीकता" en="How it works, and how often it is right" />
       <section className="max-w-3xl space-y-3 text-[17px] leading-relaxed">
         <p>
-          Nine department registers are read in their own layouts and scripts: the Social Welfare pension roll, the
+          Ten department registers are read in their own layouts and scripts: the Social Welfare pension roll, the
           Parivar register, ration cards, MGNREGA job cards, PM-KISAN, the death register, disability certificates,
           the Treasury pension roll, housing, and the ex-servicemen register. Names written in Hindi and in English are
           reduced to the same sound-based key, so भगवती देवी बिष्ट and BHAGAWATI BIST can be compared.
@@ -29,7 +29,9 @@ export default function Method({ role }) {
         <p>
           Rules are applied to what the linked registers prove, never to a guess. A case is raised only on strong
           evidence of low income: a priority ration card. People with only a State Food Scheme card are counted as a
-          survey list, not raised as cases.
+          survey list, not raised as cases. Before a case is raised, the registers are searched once more for a
+          pension or death record nearby that could belong to the same person and was not linked; if one exists, no
+          case is raised until that is checked.
         </p>
       </section>
 

@@ -107,7 +107,7 @@ def mask_fields(fields: dict, unmasked: bool) -> dict:
     """Aadhaar, accounts and mobiles are always masked; names and document numbers only until unmasked."""
     out = {}
     for k, v in fields.items():
-        if v in ("None", "nan"):
+        if v in ("None", "nan", "NaN", "<NA>") or (isinstance(v, float) and v != v):
             v = None
         if k in ID_FIELDS:
             out[k] = mask_number(v, ID_FIELDS[k])
