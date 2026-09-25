@@ -53,11 +53,14 @@ async function openAs(page, role, hash) {
     }
     // a case file end to end, as the Almora district officer: open, unmask with a reason, stamp a decision
     await openAs(page, 'dswo_almora', '#/cases?kind=exclusion&priority=high')
-    const first = await page.$('table.ledger tbody a')
-    if (!first) fail(`${wname}: no case in the register`)
+    // a case this posting has not unmasked yet, so the check starts from a masked file on every run
+    const id = await page.evaluate(async () => {
+      const r = await fetch('/api/cases?kind=exclusion&priority=high&size=200', { headers: { 'X-Role': 'dswo_almora' } })
+      return (await r.json()).rows.find((x) => !x.unmasked)?.case_id
+    })
+    if (!id) fail(`${wname}: no masked case in the register`)
     else {
-      const id = (await first.innerText()).trim()
-      await first.click()
+      await openAs(page, 'dswo_almora', `#/case/${id}`)
       await page.waitForSelector('main h1')
       await page.waitForTimeout(500)
       await page.screenshot({ path: path.join(SHOTS, `${wname}-case-masked.png`), fullPage: true })
